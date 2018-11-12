@@ -6,6 +6,6 @@ const jokeSchema = mongoose.Schema({
   joke: String
 });
 
-const jokes = mongoose.model('joke', jokeSchema);
+const joke = mongoose.model('joke', jokeSchema);
 
 module.exports = joke;

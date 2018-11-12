@@ -15,6 +15,10 @@ app.get('/', (req,res)=>{
   res.render(index.html);
 });
 
+// Controllers
+const jokeController = require('./controllers/jokes.js');
+app.use('/jokes', jokeController);
+
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/dad_jokes'
 mongoose.connect(mongoUri, { useNewUrlParser: true});
 

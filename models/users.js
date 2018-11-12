@@ -1,7 +1,7 @@
 const mongoose  = require('mongoose');
-const Joke      = require('./joke.js');
+const Joke      = require('./jokes.js');
 
-const UserSchema = mongoose.Schema({
+const userSchema = mongoose.Schema({
   username: String,
   firstName: String,
   lastName: String,
