@@ -9,6 +9,8 @@ const router              = express.Router();
 // Middleware
 app.use(methodOverride('_method'));
 app.use(express.static('public'));
+//Next line may not be necessary
+app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 app.get('/', (req,res)=>{

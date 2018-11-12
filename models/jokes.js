@@ -2,7 +2,7 @@ const mongoose  = require('mongoose');
 
 const jokeSchema = mongoose.Schema({
   api_id: String,
-  userName: String,
+  username: String,
   joke: String
 });
 

@@ -10,4 +10,12 @@ router.get('/', (req,res)=>{
   })
 });
 
+//Create nw Joke
+router.post('/', (req,res)=>{
+  jokes.create(req.body, (error, newJoke)=>{
+    res.json(newJoke);
+  })
+})
+
+
 module.exports = router;
