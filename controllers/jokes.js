@@ -29,6 +29,14 @@ router.get('/:id', (req,res)=>{
   jokes.find({ _id: req.params.id }, function(error, joke){
     res.send(joke);
   })
+});
+
+// Edit joke (have to check, also have to edit joke in User's created jokes, as well as in favorited jokes for users)
+router.put('/:id', (req,res)=>{
+  jokes.findByIdAndUpdate(req.params.id, req.body, { new: true },
+  (err, update)=>{
+    res.json(update);
+  })
 })
 
 // Delete joke

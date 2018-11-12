@@ -20,6 +20,8 @@ app.get('/', (req,res)=>{
 // Controllers
 const jokeController = require('./controllers/jokes.js');
 app.use('/jokes', jokeController);
+const seedController = require('./controllers/seed.js');
+app.use('/seed', seedController);
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/dad_jokes'
 mongoose.connect(mongoUri, { useNewUrlParser: true});

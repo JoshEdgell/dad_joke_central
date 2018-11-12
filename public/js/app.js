@@ -29,12 +29,11 @@ app.controller('MainController', ['$http', function($http){
   };
 
   // Create a joke
-  this.createJoke = function(num){
+  this.createJoke = function(){
     $http({
       method: 'POST',
       url: '/jokes',
       data: {
-        api_id: num,
         username: 'josh_edgell',
         joke: 'Joke ' + num + ' test body'
       }
@@ -71,13 +70,7 @@ app.controller('MainController', ['$http', function($http){
     })
   };
 
-  // Create 10 jokes
-  this.makeTen = function(){
-    for (let i = 0; i < 10; i++) {
-      this.createJoke(i);
-    }
-    this.getAllJokes();
-  }
-  this.getRandomJoke();
-  // this.getAllJokes();
+
+  // this.getRandomJoke();
+  this.getAllJokes();
 }])
