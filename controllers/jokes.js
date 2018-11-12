@@ -10,10 +10,24 @@ router.get('/', (req,res)=>{
   })
 });
 
-//Create nw Joke
+// Create nw Joke
 router.post('/', (req,res)=>{
   jokes.create(req.body, (error, newJoke)=>{
     res.json(newJoke);
+  })
+});
+
+// Get a joke
+router.get('/:id', (req,res)=>{
+  jokes.find({ _id: req.params.id }, function(error, joke){
+    res.send(joke);
+  })
+})
+
+// Delete joke
+router.delete('/:id', (req,res)=>{
+  jokes.findByIdAndRemove(req.params.id, (error, deletedJoke)=>{
+    res.json(deletedJoke);
   })
 })
 
