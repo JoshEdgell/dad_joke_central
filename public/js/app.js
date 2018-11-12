@@ -89,8 +89,14 @@ app.controller('MainController', ['$http', function($http){
     })
   };
 
+  // Create a user
+  this.createUser = function(){
+    console.log(this.newUser);
+    console.log('create user button clicked');
+  }
+
   // this.createTen();
-  this.countJokes();
+  // this.countJokes();
   // this.getRandomJoke();
   // this.getAllJokes();
 }])
