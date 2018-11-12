@@ -16,15 +16,27 @@ app.controller('MainController', ['$http', function($http){
       })
   };
 
+  // Get a random joke from my API
+  this.getRandomJoke = function(){
+    $http({
+      method: 'GET',
+      url: '/jokes/random'
+    }).then(function(res){
+      console.log(res.data, 'response from this.getRandomJoke');
+    }, function(err){
+      console.log(err, 'error from this.getRandomJoke');
+    })
+  };
+
   // Create a joke
-  this.createJoke = function(){
+  this.createJoke = function(num){
     $http({
       method: 'POST',
       url: '/jokes',
       data: {
-        api_id: 2,
+        api_id: num,
         username: 'josh_edgell',
-        joke: 'Joke 2 test body'
+        joke: 'Joke ' + num + ' test body'
       }
     }).then(
       function(res){
@@ -57,6 +69,15 @@ app.controller('MainController', ['$http', function($http){
     }, function(error){
       console.log(error, 'error from this.deleteJoke');
     })
+  };
+
+  // Create 10 jokes
+  this.makeTen = function(){
+    for (let i = 0; i < 10; i++) {
+      this.createJoke(i);
+    }
+    this.getAllJokes();
   }
-  this.getAllJokes();
+  this.getRandomJoke();
+  // this.getAllJokes();
 }])

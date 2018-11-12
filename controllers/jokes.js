@@ -10,7 +10,14 @@ router.get('/', (req,res)=>{
   })
 });
 
-// Create nw Joke
+// Get a random joke
+router.get('/random', (req,res)=>{
+  jokes.find({}, (error, jokes)=>{
+    res.json(jokes[Math.floor(Math.random() * jokes.length)]);
+  })
+})
+
+// Create new joke
 router.post('/', (req,res)=>{
   jokes.create(req.body, (error, newJoke)=>{
     res.json(newJoke);
