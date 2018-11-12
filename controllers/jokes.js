@@ -10,6 +10,13 @@ router.get('/', (req,res)=>{
   })
 });
 
+// Count the number of jokes
+router.get('/count', (req,res)=>{
+  jokes.countDocuments(function(error, count){
+    res.send(count.toString());
+  })
+})
+
 // Get a random joke
 router.get('/random', (req,res)=>{
   jokes.find({}, (error, jokes)=>{

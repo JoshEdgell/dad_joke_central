@@ -7,13 +7,25 @@ app.controller('MainController', ['$http', function($http){
   this.getAllJokes = function(){
     $http({
       method: 'GET',
-      url: '/jokes',
+      url: '/jokes'
     }).then(
       function(res){
         console.log(res.data, 'response from this.getAllJokes');
       }, function(err){
         console.log(err, 'error from this.getAllJokes');
       })
+  };
+
+  // Get a count of jokes in my API
+  this.countJokes = function(){
+    $http({
+      method: 'GET',
+      url: '/jokes/count'
+    }).then(function(res){
+      console.log(res.data, 'response from this.countJokes');
+    }, function(err){
+      console.log(err, 'error from this.countJokes');
+    })
   };
 
   // Get a random joke from my API
@@ -29,7 +41,7 @@ app.controller('MainController', ['$http', function($http){
   };
 
   // Create a joke
-  this.createJoke = function(){
+  this.createJoke = function(num){
     $http({
       method: 'POST',
       url: '/jokes',
@@ -44,6 +56,13 @@ app.controller('MainController', ['$http', function($http){
         console.log(error, 'error from this.createJoke');
       }
     )
+  };
+
+  // Create 10 jokes
+  this.createTen = function(){
+    for (let i = 0; i < 10; i++){
+      this.createJoke(i);
+    }
   };
 
   // Get a particular joke
@@ -70,7 +89,8 @@ app.controller('MainController', ['$http', function($http){
     })
   };
 
-
+  // this.createTen();
+  this.countJokes();
   // this.getRandomJoke();
-  this.getAllJokes();
+  // this.getAllJokes();
 }])

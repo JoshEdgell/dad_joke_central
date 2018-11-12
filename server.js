@@ -1,17 +1,17 @@
 const express             = require('express');
 const bodyParser          = require('body-parser');
 const mongoose            = require('mongoose');
-const methodOverride      = require('method-override');
+const session             = require('express-session');
 const app                 = express();
 const router              = express.Router();
 
 
 // Middleware
-app.use(methodOverride('_method'));
 app.use(express.static('public'));
 //Next line may not be necessary
-app.use(bodyParser.urlencoded({extended:false}));
+// app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
+
 
 app.get('/', (req,res)=>{
   res.render(index.html);
