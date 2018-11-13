@@ -11,8 +11,8 @@ app.controller('MainController', ['$http', function($http){
     }).then(
       function(res){
         console.log(res.data, 'response from this.getAllJokes');
-      }, function(err){
-        console.log(err, 'error from this.getAllJokes');
+      }, function(error){
+        console.log(error, 'error from this.getAllJokes');
       })
   };
 
@@ -23,8 +23,8 @@ app.controller('MainController', ['$http', function($http){
       url: '/jokes/count'
     }).then(function(res){
       console.log(res.data, 'response from this.countJokes');
-    }, function(err){
-      console.log(err, 'error from this.countJokes');
+    }, function(error){
+      console.log(error, 'error from this.countJokes');
     })
   };
 
@@ -35,8 +35,8 @@ app.controller('MainController', ['$http', function($http){
       url: '/jokes/random'
     }).then(function(res){
       console.log(res.data, 'response from this.getRandomJoke');
-    }, function(err){
-      console.log(err, 'error from this.getRandomJoke');
+    }, function(error){
+      console.log(error, 'error from this.getRandomJoke');
     })
   };
 
@@ -118,12 +118,25 @@ app.controller('MainController', ['$http', function($http){
       url: 'session'
     }).then(function(res){
       console.log(res.data, 'response from this.getAllUsers');
-    }, function(err){
-      console.log(res.data, 'error from this.getAllUsers');
+    }, function(error){
+      console.log(error, 'error from this.getAllUsers');
     })
   };
 
-  this.getAllUsers();
+  // Delete a user
+  this.deleteUser = function(id){
+    $http({
+      method: 'DELETE',
+      url: 'session/' + id
+    }).then(function(res){
+      console.log(res.data, 'response from this.deleteUser');
+      controller.getAllUsers();
+    }, function(error){
+      console.log(error, 'error from this.deleteUser');
+    })
+  };
+
+  // this.getAllUsers();
   // this.createTen();
   // this.countJokes();
   // this.getRandomJoke();

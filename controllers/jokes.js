@@ -15,14 +15,14 @@ router.get('/count', (req,res)=>{
   jokes.countDocuments(function(error, count){
     res.send(count.toString());
   })
-})
+});
 
 // Get a random joke
 router.get('/random', (req,res)=>{
   jokes.find({}, (error, jokes)=>{
     res.json(jokes[Math.floor(Math.random() * jokes.length)]);
   })
-})
+});
 
 // Create new joke
 router.post('/', (req,res)=>{
@@ -44,14 +44,14 @@ router.put('/:id', (req,res)=>{
   (err, update)=>{
     res.json(update);
   })
-})
+});
 
 // Delete joke
 router.delete('/:id', (req,res)=>{
   jokes.findByIdAndRemove(req.params.id, (error, deletedJoke)=>{
     res.json(deletedJoke);
   })
-})
+});
 
 
 module.exports = router;

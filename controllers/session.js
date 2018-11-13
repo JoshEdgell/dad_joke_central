@@ -2,6 +2,7 @@ const express           = require('express');
 const bcrypt            = require('bcrypt');
 const passwordValidator = require('password-validator');
 const User              = require('../models/users.js');
+const users             = require('../models/users.js');
 const router            = express.Router();
 
 const schema = new passwordValidator();
@@ -29,7 +30,7 @@ router.get('/', (req,res)=>{
     }
     res.json(users);
   })
-})
+});
 
 // Create new user
 router.post('/', (req,res)=>{
@@ -48,6 +49,13 @@ router.post('/', (req,res)=>{
   } else {
     console.log('the password is invalid');
   }
-})
+});
+
+// Delete a user
+router.delete('/:id', (req,res)=>{
+  users.findByIdAndRemove(req.params.id, (error, deletedUser)=>{
+    res.json(deletedUser);
+  })
+});
 
 module.exports = router;
