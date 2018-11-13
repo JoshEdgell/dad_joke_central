@@ -85,6 +85,13 @@ router.post('/', (req,res)=>{
   }
 });
 
+// Get a specific user
+router.get('/:id', (req,res)=>{
+  User.findById(req.params.id,(err,foundUser)=>{
+    res.send(foundUser);
+  })
+});
+
 // Delete a user
 router.delete('/:id', (req,res)=>{
   users.findByIdAndRemove(req.params.id, (error, deletedUser)=>{

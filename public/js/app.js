@@ -40,6 +40,19 @@ app.controller('MainController', ['$http', function($http){
     })
   };
 
+  // Get a random joke from the dad joke API
+  this.getRandomExternal = function(){
+    $http({
+      method: 'GET',
+      url: 'https://icanhazdadjoke.com/',
+      headers: { 'Accept':'application/json'}
+    }).then(function(res){
+      console.log(res.data, 'response from this.getRandomExternal')
+    }, function(error){
+      console.log(error, 'error from this.getRandomExternal')
+    })
+  };
+
   // Create a joke
   this.createJoke = function(num){
     $http({
