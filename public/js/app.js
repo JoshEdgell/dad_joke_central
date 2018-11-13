@@ -53,6 +53,19 @@ app.controller('MainController', ['$http', function($http){
     })
   };
 
+  //Search API for dad jokes based on search term
+  this.searchJokes = function(word){
+    $http({
+      method: 'GET',
+      url: 'https://icanhazdadjoke.com/search?term=' + word,
+      headers: { 'Accept':'application/json'}
+    }).then(function(res){
+      console.log(res.data, 'response from this.searchJokes');
+    }, function(error){
+      console.log(error, 'error from this.searchJokes');
+    })
+  };
+
   // Create a joke
   this.createJoke = function(num){
     $http({

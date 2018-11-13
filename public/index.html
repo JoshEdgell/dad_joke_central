@@ -77,13 +77,33 @@
 
 
 
+    <!-- Get random joke from API -->
 
-
-    <form ng-submit="ctrl.getRandomExternal()">
+    <!-- <form ng-submit="ctrl.getRandomExternal()">
       <button type="submit" class="btn btn-primary">Get Joke</button>
+    </form> -->
+
+
+
+
+
+    <!-- Search Term in API -->
+    <form ng-submit="ctrl.searchJokes(searchTerm)">
+
+      <div class="form-group">
+        <label for="searchTerm">Search Term</label>
+        <input type="text" class="form-control" id="searchTerm" aria-describedby="searchTerm" placeholder="Enter Search Term" ng-model="searchTerm">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Search</button>
     </form>
 
 
+
+    <!-- Logout -->
+    <!-- <form ng-submit="ctrl.logout()">
+      <button type="submit" class="btn btn-primary">Logout</button>
+    </form> -->
 
 
 
