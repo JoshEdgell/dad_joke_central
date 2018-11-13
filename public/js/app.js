@@ -109,8 +109,21 @@ app.controller('MainController', ['$http', function($http){
     }, function(error){
       console.log(error, 'error from this.createUser');
     })
-  }
+  };
 
+  // Get all users
+  this.getAllUsers = function(){
+    $http({
+      method: 'GET',
+      url: 'session'
+    }).then(function(res){
+      console.log(res.data, 'response from this.getAllUsers');
+    }, function(err){
+      console.log(res.data, 'error from this.getAllUsers');
+    })
+  };
+
+  this.getAllUsers();
   // this.createTen();
   // this.countJokes();
   // this.getRandomJoke();

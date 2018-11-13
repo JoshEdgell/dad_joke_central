@@ -13,6 +13,25 @@ schema
   .has().digits()
   .has().not().spaces();
 
+// Get all users
+router.get('/', (req,res)=>{
+  User.find({}, (err, foundUsers)=>{
+    const users = [];
+    for (let i = 0; i < foundUsers.length; i++) {
+      users.push({
+        _id: foundUsers[i]._id,
+        username: foundUsers[i].username,
+        firstName: foundUsers[i].firstName,
+        lastName: foundUsers[i].lastName,
+        favoriteJokes: foundUsers[i].favoriteJokes,
+        createdJokes: foundUsers[i].createdJokes
+      });
+    }
+    res.json(users);
+  })
+})
+
+// Create new user
 router.post('/', (req,res)=>{
   if (schema.validate(req.body.password)) {
     if (req.body.password !== req.body.password2) {
