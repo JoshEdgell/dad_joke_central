@@ -136,6 +136,21 @@ app.controller('MainController', ['$http', function($http){
     })
   };
 
+  // Log in a user
+  this.login = function(){
+    $http({
+      method: 'POST',
+      url: 'session/login',
+      data: this.loginInfo
+    }).then(function(res){
+      console.log(res.data, 'response from this.login');
+    }, function(error){
+      console.log(res.data, 'error from this.login');
+    })
+  };
+
+
+  // this.createUser();
   // this.getAllUsers();
   // this.createTen();
   // this.countJokes();

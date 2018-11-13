@@ -32,6 +32,28 @@ router.get('/', (req,res)=>{
   })
 });
 
+// Check password
+router.post('/login', (req,res)=>{
+  console.log('login route accessed');
+  User.findOne({ username: req.body.username }, (err,foundUser)=>{
+    //If the user is found
+    if (foundUser) {
+      //If the provided password is correct
+      if (bcrypt.compareSync(req.body.password, foundUser.password)){
+        req.session.username = req.body.username;
+        console.log(req.session.username + ' is logged in');
+        console.log(req.session);
+        req.session.logged = true;
+      } else {
+        console.log('incorrect password');
+      }
+    //If the user is not found
+    } else {
+      console.log('user not found');
+    }
+  })
+});
+
 // Create new user
 router.post('/', (req,res)=>{
   if (schema.validate(req.body.password)) {
