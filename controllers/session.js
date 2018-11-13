@@ -20,10 +20,9 @@ router.post('/', (req,res)=>{
     } else {
       const userDbEntry = req.body;
       userDbEntry.password = bcrypt.hashSync(userDbEntry.password, bcrypt.genSaltSync(10));
-      console.log(userDbEntry, 'user db entry');
       User.create(userDbEntry, (err,user)=>{
-        // req.session.username = user.username;
-        // req.session.logged = true;
+        req.session.username = user.username;
+        req.session.logged = true;
         res.json(user);
       })
     }

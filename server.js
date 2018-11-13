@@ -11,11 +11,11 @@ app.use(express.static('public'));
 //Next line may not be necessary
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
-
-
-app.get('/', (req,res)=>{
-  res.render(index.html);
-});
+app.use(session({
+  secret: "That's what she said",
+  resave: false,
+  saveUninitialized: false
+}))
 
 // Controllers
 const jokeController = require('./controllers/jokes.js');
@@ -24,6 +24,10 @@ const seedController = require('./controllers/seed.js');
 app.use('/seed', seedController);
 const sessionController = require('./controllers/session.js');
 app.use('/session', sessionController);
+
+app.get('/', (req,res)=>{
+  res.render(index.html);
+});
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/dad_jokes'
 mongoose.connect(mongoUri, { useNewUrlParser: true});
