@@ -93,6 +93,15 @@ app.controller('MainController', ['$http', function($http){
   this.createUser = function(){
     console.log(this.newUser);
     console.log('create user button clicked');
+    $http({
+      method: 'POST',
+      url: '/session',
+      data: this.newUser
+    }).then(function(res){
+      console.log(res.data, 'response from this.createUser');
+    }, function(error){
+      console.log(error, 'error from this.createUser');
+    })
   }
 
   // this.createTen();
