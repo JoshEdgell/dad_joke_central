@@ -91,8 +91,7 @@ app.controller('MainController', ['$http', function($http){
 
   // Create a user
   this.createUser = function(){
-    console.log(this.newUser);
-    console.log('create user button clicked');
+    // Use this route to check to verify that passwords match prior to sending the request.  If they don't match, pop up the error message to prompt the user for a match.  If they do match, send the $http request
     $http({
       method: 'POST',
       url: '/session',
@@ -141,11 +140,28 @@ app.controller('MainController', ['$http', function($http){
     $http({
       method: 'POST',
       url: 'session/login',
-      data: this.loginInfo
+      // data: this.loginInfo,
+      data: {
+        username: 'joshedgell',
+        password: 'Tacocat1'
+      }
     }).then(function(res){
-      console.log(res.data, 'response from this.login');
+      console.log(res, 'response from this.login');
     }, function(error){
-      console.log(res.data, 'error from this.login');
+      // 401 - incorrect password
+      // 404 - user not found
+      console.log(error, 'error from this.login');
+    })
+  };
+
+  this.logout = function(){
+    $http({
+      method: 'GET',
+      url: 'session/logout',
+    }).then(function(res){
+      console.log(res.data, 'response from this.logout');
+    }, function(error){
+      console.log(error, 'error from this.logout');
     })
   };
 

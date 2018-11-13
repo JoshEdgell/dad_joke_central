@@ -34,42 +34,54 @@ router.get('/', (req,res)=>{
 
 // Check password
 router.post('/login', (req,res)=>{
-  console.log('login route accessed');
+  // console.log('login route accessed');
   User.findOne({ username: req.body.username }, (err,foundUser)=>{
     //If the user is found
     if (foundUser) {
       //If the provided password is correct
       if (bcrypt.compareSync(req.body.password, foundUser.password)){
         req.session.username = req.body.username;
-        console.log(req.session.username + ' is logged in');
-        console.log(req.session);
+        // console.log(req.session.username + ' is logged in');
+        // console.log(req.session);
         req.session.logged = true;
+        res.send(req.session);
+
+      //If the provided password is incorrect
       } else {
-        console.log('incorrect password');
+        res.sendStatus(401);
       }
+
     //If the user is not found
     } else {
-      console.log('user not found');
+      res.sendStatus(404);
     }
   })
 });
 
+// Logout
+router.get('/logout', (req,res)=>{
+  req.session.destroy((error)=>{
+    if (error) {
+
+    } else {
+      // console.log('logged out');
+      res.sendStatus(200);
+    }
+  })
+})
+
 // Create new user
 router.post('/', (req,res)=>{
   if (schema.validate(req.body.password)) {
-    if (req.body.password !== req.body.password2) {
-      console.log('passwords do not match');
-    } else {
-      const userDbEntry = req.body;
-      userDbEntry.password = bcrypt.hashSync(userDbEntry.password, bcrypt.genSaltSync(10));
-      User.create(userDbEntry, (err,user)=>{
-        req.session.username = user.username;
-        req.session.logged = true;
-        res.json(user);
-      })
-    }
+    const userDbEntry = req.body;
+    userDbEntry.password = bcrypt.hashSync(userDbEntry.password, bcrypt.genSaltSync(10));
+    User.create(userDbEntry, (err,user)=>{
+      req.session.username = user.username;
+      req.session.logged = true;
+      res.json(user);
+    })
   } else {
-    console.log('the password is invalid');
+    res.sendStatus(400);
   }
 });
 
