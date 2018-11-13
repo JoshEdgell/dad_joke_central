@@ -28,6 +28,21 @@ app.controller('MainController', ['$http', function($http){
     })
   };
 
+  //Get a count of all the jokes on the dad joke API
+  this.countAPI = function(){
+    $http({
+      method: 'get',
+      url: 'https://icanhazdadjoke.com/search',
+      headers: {'Accept':'application/json'}
+    }).then(
+      function(response){
+        console.log(res.data.total_jokes, 'response from this.countAPI');
+      }, function (error){
+        console.log(error, 'error from this.countAPI');
+      }
+    )
+  };
+
   // Get a random joke from my API
   this.getRandomJoke = function(){
     $http({
