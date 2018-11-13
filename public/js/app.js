@@ -96,7 +96,14 @@ app.controller('MainController', ['$http', function($http){
     $http({
       method: 'POST',
       url: '/session',
-      data: this.newUser
+      // data: this.newUser
+      data: {
+        firstName: 'Josh',
+        lastName: 'Edgell',
+        username: 'joshedgell',
+        password: 'Tacocat1',
+        password2: 'Tacocat1'
+      }
     }).then(function(res){
       console.log(res.data, 'response from this.createUser');
     }, function(error){
