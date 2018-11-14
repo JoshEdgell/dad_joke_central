@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr" ng-app="DadJokes">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>The Dad Joke App</title>
 
     <!-- Angular -->
@@ -13,12 +14,42 @@
     <!--Fonts-->
     <link href="https://fonts.googleapis.com/css?family=Quicksand|Bangers" rel="stylesheet">
 
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image" href="/img/favicon.png"/>
+
     <!-- CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/main.css">
   </head>
   <body ng-controller="MainController as ctrl">
-    <h1>Dad Jokes!</h1>
+
+    <div class="pos-f-t">
+      <nav class="navbar navbar-dark bg-primary">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </nav>
+      <div class="collapse" id="navbarToggleExternalContent">
+        <div class="bg-primary p-4">
+          <h5 class="text-white h4">Collapsed content</h5>
+          <span class="text-muted">Toggleable via the navbar brand.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <h1 id="title">
+        The Dad Joke Site
+      </h1>
+      <img src="/img/background.jpg" alt="background" id="backgroundImage"/>
+      <h3 id="subtitle">
+        The Mother of All Dad Joke Apps
+      </h3>
+
+      <div id="jokePane">
+        {{ctrl.currentJoke.joke}}
+      </div>
+    </div>
 
 
     <!-- Create User Form -->
@@ -88,7 +119,7 @@
 
 
     <!-- Search Term in API -->
-    <form ng-submit="ctrl.searchJokes(searchTerm)">
+    <!-- <form ng-submit="ctrl.searchJokes(searchTerm)">
 
       <div class="form-group">
         <label for="searchTerm">Search Term</label>
@@ -96,7 +127,7 @@
       </div>
 
       <button type="submit" class="btn btn-primary">Search</button>
-    </form>
+    </form> -->
 
 
 

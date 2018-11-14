@@ -2,6 +2,7 @@ const app = angular.module('DadJokes', []);
 
 app.controller('MainController', ['$http', function($http){
   const controller = this;
+  this.currentJoke = {};
 
   // Get all jokes from my API
   this.getAllJokes = function(){
@@ -63,6 +64,7 @@ app.controller('MainController', ['$http', function($http){
       headers: { 'Accept':'application/json'}
     }).then(function(res){
       console.log(res.data, 'response from this.getRandomExternal')
+      controller.currentJoke = res.data;
     }, function(error){
       console.log(error, 'error from this.getRandomExternal')
     })
@@ -97,13 +99,6 @@ app.controller('MainController', ['$http', function($http){
         console.log(error, 'error from this.createJoke');
       }
     )
-  };
-
-  // Create 10 jokes
-  this.createTen = function(){
-    for (let i = 0; i < 10; i++){
-      this.createJoke(i);
-    }
   };
 
   // Get a particular joke
@@ -206,11 +201,5 @@ app.controller('MainController', ['$http', function($http){
     })
   };
 
-
-  // this.createUser();
-  // this.getAllUsers();
-  // this.createTen();
-  // this.countJokes();
-  // this.getRandomJoke();
-  // this.getAllJokes();
-}])
+  this.getRandomExternal();
+}]);
