@@ -173,6 +173,8 @@ app.controller('MainController', ['$http', function($http){
 
   // Log in a user
   this.login = function(){
+    angular.element($("#loginButton")).addClass("collapsed").attr("aria-expanded","false");
+    angular.element($("#navbarToggleExternalContent")).removeClass("show").addClass("collapsing");
     $http({
       method: 'POST',
       url: 'session/login',
@@ -182,7 +184,10 @@ app.controller('MainController', ['$http', function($http){
         password: 'Tacocat1'
       }
     }).then(function(res){
-      console.log(res, 'response from this.login');
+      if (res.status === 200) {
+        console.log('user logged in');
+      }
+      // console.log(res, 'response from this.login');
     }, function(error){
       // 401 - incorrect password
       // 404 - user not found

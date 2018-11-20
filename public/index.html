@@ -25,15 +25,42 @@
 
     <div class="pos-f-t">
       <nav class="navbar navbar-dark bg-primary">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button id="loginButton" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
       </nav>
       <div class="collapse" id="navbarToggleExternalContent">
         <div class="bg-primary p-4">
-          <h5 class="text-white h4">Collapsed content</h5>
-          <span class="text-muted">Toggleable via the navbar brand.</span>
+          <!-- <h5 class="text-white h4">Collapsed content</h5> -->
+          <!-- <span class="text-muted">Toggleable via the navbar brand.</span> -->
+
+
+          <!-- Login Form -->
+
+          <form ng-submit="ctrl.login()" class="text-white h4">
+
+            <div class="form-group text-white h4">
+              <label for="loginUsername">username</label>
+              <input type="text" class="form-control" id="loginUsername" aria-describedby="loginUsername" placeholder="Enter User Name" ng-model="ctrl.loginInfo.username">
+            </div>
+
+            <div class="form-group">
+              <label for="loginPassword">password</label>
+              <input type="password" class="form-control" id="loginPassword" placeholder="Password" ng-model="ctrl.loginInfo.password">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Login</button>
+          </form>
         </div>
+
+
+
+
+
+
+
+
+
       </div>
     </div>
 
@@ -85,22 +112,8 @@
 
 
 
-    <!-- Login Form -->
 
-    <!-- <form ng-submit="ctrl.login()">
-
-      <div class="form-group">
-        <label for="loginUsername">username</label>
-        <input type="text" class="form-control" id="loginUsername" aria-describedby="loginUsername" placeholder="Enter User Name" ng-model="ctrl.loginInfo.username">
-      </div>
-
-      <div class="form-group">
-        <label for="loginPassword">Password</label>
-        <input type="password" class="form-control" id="loginPassword" placeholder="Password" ng-model="ctrl.loginInfo.password">
-      </div>
-
-      <button type="submit" class="btn btn-primary">Login</button>
-    </form>
+    <!--
 
     <form ng-submit="ctrl.logout()">
       <button type="submit" class="btn btn-primary">Logout</button>
@@ -145,6 +158,6 @@
     <!-- JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
   </body>
 </html>
