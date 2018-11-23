@@ -2,6 +2,7 @@ const app = angular.module('DadJokes', []);
 
 app.controller('MainController', ['$http', function($http){
   const controller = this;
+  this.showLoginForm = true;
   this.currentJoke = {};
 
   // Get all jokes from my API
@@ -173,6 +174,7 @@ app.controller('MainController', ['$http', function($http){
 
   // Log in a user
   this.login = function(){
+    this.showLoginForm = false;
     $http({
       method: 'POST',
       url: 'session/login',

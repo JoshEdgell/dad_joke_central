@@ -36,8 +36,7 @@
 
 
           <!-- Login Form -->
-
-          <form ng-submit="ctrl.login()" class="text-white h4">
+          <form ng-submit="ctrl.login()" class="text-white h4" ng-show="ctrl.showLoginForm">
 
             <div class="form-group text-white h4">
               <label for="loginUsername">username</label>
@@ -50,7 +49,12 @@
             </div>
 
             <button type="submit" class="btn btn-primary" id="loginButton">Login</button>
+              <input type="button" class="btn btn-primary" value="Create an Account"></input>
           </form>
+
+
+
+
         </div>
 
 
