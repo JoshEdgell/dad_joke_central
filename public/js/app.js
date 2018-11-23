@@ -3,6 +3,7 @@ const app = angular.module('DadJokes', []);
 app.controller('MainController', ['$http', function($http){
   const controller = this;
   this.showLoginForm = true;
+  // this.showCreateUserModal = false;
   this.currentJoke = {};
 
   // Get all jokes from my API
