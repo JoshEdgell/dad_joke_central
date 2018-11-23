@@ -173,8 +173,6 @@ app.controller('MainController', ['$http', function($http){
 
   // Log in a user
   this.login = function(){
-    angular.element($("#loginButton")).addClass("collapsed").attr("aria-expanded","false");
-    angular.element($("#navbarToggleExternalContent")).removeClass("show").addClass("collapsing");
     $http({
       method: 'POST',
       url: 'session/login',
