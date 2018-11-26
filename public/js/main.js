@@ -1,8 +1,8 @@
 $(()=>{
   const $hamburger = $('#hamburger');
-  
-  const $loginButton = $('#loginButton');
-  $loginButton.on('click',()=>{
+
+  const $hamburgerToggler = $('.hamburgerToggler');
+  $hamburgerToggler.on('click',()=>{
     $hamburger.click();
   })
 })

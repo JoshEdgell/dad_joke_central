@@ -23,6 +23,8 @@
   </head>
   <body ng-controller="MainController as ctrl">
 
+    <!-- Navbar -->
+
     <div class="pos-f-t">
       <nav class="navbar navbar-dark bg-primary">
         <button id="hamburger" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,8 +50,8 @@
               <input type="password" class="form-control" id="loginPassword" placeholder="Password" ng-model="ctrl.loginInfo.password">
             </div>
 
-            <button type="submit" class="btn btn-primary" id="loginButton">Login</button>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            <button type="submit" class="btn btn-primary hamburgerToggler">Login</button>
+            <button type="button" class="btn btn-primary hamburgerToggler" data-toggle="modal" data-target="#exampleModal">
               Create an Account
             </button>
 
