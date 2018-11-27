@@ -68,11 +68,51 @@ router.get('/logout', (req,res)=>{
       res.sendStatus(200);
     }
   })
-})
+});
+
+
+// schema
+//   .is().min(8)
+//   .is().max(20)
+//   .has().uppercase()
+//   .has().digits()
+//   .has().not().spaces();
+//
+// new passwordValidator().is().min(8).validate(req.body.password)
 
 // Create new user
 router.post('/', (req,res)=>{
-  if (schema.validate(req.body.password)) {
+  let errors = {
+    'min': false,
+    'max': false,
+    'uppercase': false,
+    'digit': false,
+    'spaces': false,
+    'errors': 5
+  };
+  if (new passwordValidator().is().min(8).validate(req.body.password)) {
+    errors.min = true;
+    errors.errors --;
+  }
+  if (new passwordValidator().is().max(20).validate(req.body.password)) {
+    errors.max = true;
+    errors.errors --;
+  }
+  if (new passwordValidator().has().uppercase().validate(req.body.password)) {
+    errors.uppercase = true;
+    errors.errors --;
+  }
+  if (new passwordValidator().has().digits().validate(req.body.password)) {
+    errors.digit = true;
+    errors.errors --;
+  }
+  if (new passwordValidator().has().not().spaces().validate(req.body.password)) {
+    errors.spaces = true;
+    errors.errors --;
+  }
+  if (errors.errors !== 0) {
+    res.json(errors)
+  } else {
     const userDbEntry = req.body;
     userDbEntry.password = bcrypt.hashSync(userDbEntry.password, bcrypt.genSaltSync(10));
     User.create(userDbEntry, (err,user)=>{
@@ -80,9 +120,30 @@ router.post('/', (req,res)=>{
       req.session.logged = true;
       res.json(user);
     })
-  } else {
-    res.sendStatus(400);
   }
+
+
+
+
+
+
+
+
+
+  // if (schema.validate(req.body.password)) {
+  //   const userDbEntry = req.body;
+  //   userDbEntry.password = bcrypt.hashSync(userDbEntry.password, bcrypt.genSaltSync(10));
+  //   User.create(userDbEntry, (err,user)=>{
+  //     req.session.username = user.username;
+  //     req.session.logged = true;
+  //     res.json(user);
+  //   })
+  // } else {
+  //   res.sendStatus(400);
+  // }
+
+
+
 });
 
 // Get a specific user
