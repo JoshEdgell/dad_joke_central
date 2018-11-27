@@ -72,7 +72,7 @@
           <div class="modal-body">
 
             <!-- Create User Form -->
-            <form ng-submit="ctrl.createUser()">
+            <form>
               <div class="form-group">
                 <label for="firstName">First Name</label>
                 <input type="text" class="form-control" id="firstName" aria-describedby="firstName" placeholder="Enter First Name" ng-model="ctrl.newUser.firstName">
@@ -97,10 +97,10 @@
                 <label for="password2">Verify Password</label>
                 <input type="password" class="form-control" id="password2" placeholder="Verify Password" ng-model="ctrl.newUser.password2">
               </div>
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-secondary" data-dismiss="modal">Create User</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-              </div>
+              <!-- <div class="modal-footer"> -->
+              <input type="submit" class="btn btn-primary" data-dismiss="modal" value="Create User" ng-click="ctrl.createUser()">
+              <input type="submit" class="btn btn-secondary" data-dismiss="modal" value="Cancel">
+              <!-- </div> -->
             </form>
 
 

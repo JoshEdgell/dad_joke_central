@@ -1,4 +1,5 @@
 $(()=>{
+
   const $hamburger = $('#hamburger');
 
   const $hamburgerToggler = $('.hamburgerToggler');
