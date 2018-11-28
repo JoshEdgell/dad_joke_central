@@ -82,6 +82,8 @@ router.get('/logout', (req,res)=>{
 
 // Create new user
 router.post('/', (req,res)=>{
+  // req is sent to backend
+  console.log(req.body);
   let errors = {
     'min': false,
     'max': false,
@@ -110,6 +112,12 @@ router.post('/', (req,res)=>{
     errors.spaces = true;
     errors.errors --;
   }
+
+
+
+
+
+  // Response Area (res is the object that is sent back)
   if (errors.errors !== 0) {
     res.json(errors)
   } else {
@@ -144,6 +152,12 @@ router.post('/', (req,res)=>{
 
 
 
+});
+
+router.get('/dropdatabase',(req,res)=>{
+  users.collection.drop();
+  console.log('database dropped');
+  res.redirect('/');
 });
 
 // Get a specific user

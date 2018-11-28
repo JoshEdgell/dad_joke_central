@@ -207,4 +207,5 @@ app.controller('MainController', ['$http', function($http){
   };
 
   this.getRandomExternal();
+  this.getAllUsers();
 }]);
