@@ -4,6 +4,7 @@ app.controller('MainController', ['$http', function($http){
   const controller = this;
   this.showLoginForm = true;
   this.currentJoke = {};
+  this.loggedUser = {};
 
   // Get all jokes from my API
   this.getAllJokes = function(){
@@ -142,6 +143,8 @@ app.controller('MainController', ['$http', function($http){
       }
     }).then(function(res){
       console.log(res.data, 'response from this.createUser');
+      controller.loggedUser = res.data;
+      console.log(controller.loggedUser, 'controller.loggedUser');
     }, function(error){
       console.log(error, 'error from this.createUser');
     })
@@ -156,6 +159,18 @@ app.controller('MainController', ['$http', function($http){
       console.log(res.data, 'response from this.getAllUsers');
     }, function(error){
       console.log(error, 'error from this.getAllUsers');
+    })
+  };
+
+  //Get a specific user
+  this.getUser = function(id){
+    $http({
+      method: 'GET',
+      url: 'session/' + id
+    }).then(function(res){
+      console.log(res.data, 'response from this.getUser');
+    }, function(error){
+      console.log(error, 'error from this.getUser')
     })
   };
 

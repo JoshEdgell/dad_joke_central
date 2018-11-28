@@ -28,7 +28,7 @@ router.get('/', (req,res)=>{
         createdJokes: foundUsers[i].createdJokes
       });
     }
-    res.json(users);
+    res.send(users);
   })
 });
 
@@ -124,9 +124,11 @@ router.post('/', (req,res)=>{
     const userDbEntry = req.body;
     userDbEntry.password = bcrypt.hashSync(userDbEntry.password, bcrypt.genSaltSync(10));
     User.create(userDbEntry, (err,user)=>{
+      console.log(user, 'created user');  
       req.session.username = user.username;
       req.session.logged = true;
-      res.json(user);
+      req.session._id = user._id;
+      res.send(user);
     })
   }
 
@@ -156,8 +158,7 @@ router.post('/', (req,res)=>{
 
 router.get('/dropdatabase',(req,res)=>{
   users.collection.drop();
-  console.log('database dropped');
-  res.redirect('/');
+  res.send('user database dropped');
 });
 
 // Get a specific user
