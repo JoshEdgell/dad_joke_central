@@ -222,6 +222,7 @@ app.controller('MainController', ['$http', function($http){
       url: 'session/logout',
     }).then(function(res){
       console.log(res.data, 'response from this.logout');
+      controller.userLoggedIn = false;
     }, function(error){
       console.log(error, 'error from this.logout');
     })

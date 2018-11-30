@@ -60,7 +60,11 @@
             <ul class="text-white h4">
               <li ng-repeat="user in ctrl.allUsers"> <a ng-click="ctrl.displayUser(user._id)">{{ user.firstName }} {{ user.lastName }}</a></li>
             </ul>
+            <button type="button" class="btn btn-primary hamburgerToggler" ng-click="ctrl.logout()">
+              Log Out
+            </button>
           </div>
+
         </div>
       </div>
     </div>
