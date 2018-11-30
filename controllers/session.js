@@ -40,7 +40,12 @@ router.post('/login', (req,res)=>{
     if (foundUser) {
       //If the provided password is correct
       if (bcrypt.compareSync(req.body.password, foundUser.password)){
-        req.session.username = req.body.username;
+        req.session.username = foundUser.username;
+        req.session.firstName = foundUser.firstName;
+        req.session.lastName = foundUser.lastName;
+        req.session.favoriteJokes = foundUser.favoriteJokes;
+        req.session.createdJokes = foundUser.createdJokes;
+        req.session._id = foundUser._id
         // console.log(req.session.username + ' is logged in');
         // console.log(req.session);
         req.session.logged = true;

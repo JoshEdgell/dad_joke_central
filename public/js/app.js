@@ -140,6 +140,7 @@ app.controller('MainController', ['$http', function($http){
         firstName: 'Josh',
         lastName: 'Edgell',
         username: 'joshedgell',
+        // They said my password need to be 8 characters, so I chose Snow White and the Seven Dwarves
         password: 'Tacocat1',
         password2: 'Tacocat1'
       }
@@ -203,6 +204,7 @@ app.controller('MainController', ['$http', function($http){
       }
     }).then(function(res){
       if (res.status === 200) {
+        controller.userLoggedIn = res.data.logged;
         console.log(res, 'response from this.login')
         console.log('user logged in');
       }

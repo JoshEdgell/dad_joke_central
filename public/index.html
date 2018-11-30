@@ -58,7 +58,7 @@
           </form>
           <div ng-show="ctrl.userLoggedIn">
             <ul class="text-white h4">
-              <li ng-repeat="user in ctrl.allUsers"><a ng-click="ctrl.displayUser(  user._id  )">{{ user.firstName }} {{ user.lastName }}</a></li>
+              <li ng-repeat="user in ctrl.allUsers"> <a ng-click="ctrl.displayUser(user._id)">{{ user.firstName }} {{ user.lastName }}</a></li>
             </ul>
           </div>
         </div>
