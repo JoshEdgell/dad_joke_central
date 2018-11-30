@@ -1,10 +1,12 @@
-const app = angular.module('DadJokes', []);
+const app               = angular.module('DadJokes', []);
 
 app.controller('MainController', ['$http', function($http){
   const controller = this;
   this.showLoginForm = true;
+  this.userLoggedIn = false;
   this.currentJoke = {};
   this.loggedUser = {};
+  this.allUsers = [];
 
   // Get all jokes from my API
   this.getAllJokes = function(){
@@ -144,7 +146,7 @@ app.controller('MainController', ['$http', function($http){
     }).then(function(res){
       console.log(res.data, 'response from this.createUser');
       controller.loggedUser = res.data;
-      console.log(controller.loggedUser, 'controller.loggedUser');
+      controller.userLoggedIn = res.data.logged;
     }, function(error){
       console.log(error, 'error from this.createUser');
     })
@@ -157,6 +159,7 @@ app.controller('MainController', ['$http', function($http){
       url: 'session'
     }).then(function(res){
       console.log(res.data, 'response from this.getAllUsers');
+      controller.allUsers = res.data;
     }, function(error){
       console.log(error, 'error from this.getAllUsers');
     })
@@ -200,6 +203,7 @@ app.controller('MainController', ['$http', function($http){
       }
     }).then(function(res){
       if (res.status === 200) {
+        console.log(res, 'response from this.login')
         console.log('user logged in');
       }
       // console.log(res, 'response from this.login');
@@ -219,6 +223,10 @@ app.controller('MainController', ['$http', function($http){
     }, function(error){
       console.log(error, 'error from this.logout');
     })
+  };
+
+  this.displayUser = function(id) {
+    console.log(id, 'input for this.displayUser')
   };
 
   this.getRandomExternal();

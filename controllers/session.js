@@ -124,11 +124,15 @@ router.post('/', (req,res)=>{
     const userDbEntry = req.body;
     userDbEntry.password = bcrypt.hashSync(userDbEntry.password, bcrypt.genSaltSync(10));
     User.create(userDbEntry, (err,user)=>{
-      console.log(user, 'created user');  
+      console.log(user, 'created user');
       req.session.username = user.username;
       req.session.logged = true;
       req.session._id = user._id;
-      res.send(user);
+      req.session.firstName = user.firstName;
+      req.session.lastName = user.lastName;
+      req.session.favoritedJokes = [];
+      req.session.createdJokes = [];
+      res.send(req.session);
     })
   }
 

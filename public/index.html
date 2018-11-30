@@ -38,7 +38,7 @@
 
 
           <!-- Login Form -->
-          <form ng-submit="ctrl.login()" class="text-white h4" ng-show="ctrl.showLoginForm">
+          <form ng-submit="ctrl.login()" class="text-white h4" ng-show="!ctrl.userLoggedIn">
 
             <div class="form-group text-white h4">
               <label for="loginUsername">username</label>
@@ -56,6 +56,11 @@
             </button>
 
           </form>
+          <div ng-show="ctrl.userLoggedIn">
+            <ul class="text-white h4">
+              <li ng-repeat="user in ctrl.allUsers"><a ng-click="ctrl.displayUser(  user._id  )">{{ user.firstName }} {{ user.lastName }}</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
