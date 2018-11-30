@@ -7,6 +7,7 @@ app.controller('MainController', ['$http', function($http){
   this.currentJoke = {};
   this.loggedUser = {};
   this.allUsers = [];
+  this.targetUser = {};
 
   // Get all jokes from my API
   this.getAllJokes = function(){
@@ -228,8 +229,8 @@ app.controller('MainController', ['$http', function($http){
     })
   };
 
-  this.displayUser = function(id) {
-    console.log(id, 'input for this.displayUser')
+  this.displayUser = function(user) {
+    this.targetUser = user;
   };
 
   this.getRandomExternal();
