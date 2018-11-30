@@ -239,6 +239,17 @@ app.controller('MainController', ['$http', function($http){
     this.targetUser = user;
   };
 
+  this.addJokeToFavorites = function(){
+    if (this.loggedUser.logged) {
+      this.loggedUser.favoriteJokes.push(this.currentJoke);
+      // Update the logged user
+      // Run controller.getAllUsers to refresh the users list (so the newly-favorited joke will show up in their list)
+    } else {
+      console.log('user is not logged in');
+      document.getElementById("hamburger").click();
+    }
+  };
+
   this.getRandomExternal();
   this.getAllUsers();
 }]);
