@@ -8,6 +8,7 @@ app.controller('MainController', ['$http', function($http){
   this.loggedUser = {};
   this.allUsers = [];
   this.targetUser = {};
+  this.targetMatchesLogged = false;
 
   // Get all jokes from my API
   this.getAllJokes = function(){
@@ -198,7 +199,7 @@ app.controller('MainController', ['$http', function($http){
     $http({
       method: 'POST',
       url: 'session/login',
-      // data: this.loginInfo,
+      data: this.loginInfo,
       data: {
         username: 'joshedgell',
         password: 'Tacocat1'
@@ -206,6 +207,7 @@ app.controller('MainController', ['$http', function($http){
     }).then(function(res){
       if (res.status === 200) {
         controller.userLoggedIn = res.data.logged;
+        controller.loggedUser = res.data;
         console.log(res, 'response from this.login')
         console.log('user logged in');
       }
@@ -230,6 +232,10 @@ app.controller('MainController', ['$http', function($http){
   };
 
   this.displayUser = function(user) {
+    console.log(user, 'clicked user');
+    if (user._id === this.loggedUser._id) {
+      this.targetMatchesLogged = true;
+    }
     this.targetUser = user;
   };
 

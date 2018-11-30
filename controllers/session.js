@@ -87,7 +87,6 @@ router.get('/logout', (req,res)=>{
 
 // Create new user
 router.post('/', (req,res)=>{
-  // req is sent to backend
   console.log(req.body);
   let errors = {
     'min': false,
