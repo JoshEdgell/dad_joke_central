@@ -164,6 +164,17 @@ router.post('/', (req,res)=>{
 
 });
 
+// Edit a user
+router.put('/edit/:id', (req,res)=>{
+  console.log('edit user route accessed');
+  User.findByIdAndUpdate(req.params.id, req.body, {new:true}, (err,foundUser)=>{
+    foundUser.save((err,data)=>{
+      console.log(data, "What I'm trying to send back.")
+      res.json(data);
+    })
+  })
+})
+
 router.get('/dropdatabase',(req,res)=>{
   users.collection.drop();
   res.send('user database dropped');

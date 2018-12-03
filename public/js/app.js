@@ -69,6 +69,7 @@ app.controller('MainController', ['$http', function($http){
       url: 'https://icanhazdadjoke.com/',
       headers: { 'Accept':'application/json'}
     }).then(function(res){
+      // Is it possible to check the id of the joke against the ids of the jokes in the loggedUser's favorited jokes to change the class of the star appearing after the joke?
       console.log(res.data, 'response from this.getRandomExternal')
       controller.currentJoke = res.data;
     }, function(error){
@@ -83,6 +84,8 @@ app.controller('MainController', ['$http', function($http){
       url: 'https://icanhazdadjoke.com/search?term=' + word,
       headers: { 'Accept':'application/json'}
     }).then(function(res){
+      // Is it possible to check the ids of the jokes against the ids of the jokes in the loggedUser's favorited jokes to change the class of the star appearing after each joke?
+      // To do this, it may be necessary to give each joke an id of the joke._id to find the target joke and apply the class change
       console.log(res.data, 'response from this.searchJokes');
     }, function(error){
       console.log(error, 'error from this.searchJokes');
@@ -240,8 +243,19 @@ app.controller('MainController', ['$http', function($http){
   };
 
   this.addJokeToFavorites = function(){
+    console.log('trying to add joke to favorites');
     if (this.loggedUser.logged) {
       this.loggedUser.favoriteJokes.push(this.currentJoke);
+      $http({
+        url: 'session/edit/' + this.loggedUser._id,
+        method: 'PUT',
+        data: this.loggedUser
+      }).then(function(res){
+        console.log(res.data, 'response from this.addJokeToFavorites');
+      }, function(error){
+        console.log(error, 'error from this.addJokeToFavorites');
+      })
+      console.log(this.loggedUser, 'this.loggedUser after adding new joke')
       // Update the logged user
       // Run controller.getAllUsers to refresh the users list (so the newly-favorited joke will show up in their list)
     } else {

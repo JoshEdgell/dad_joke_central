@@ -59,9 +59,14 @@
             </button>
 
           </form>
+
+          <!-- Logged User Navbar -->
+
+
+
           <div ng-show="ctrl.userLoggedIn">
             <ul class="text-white h4">
-              <li ng-repeat="user in ctrl.allUsers"> <a ng-click="ctrl.displayUser(user)" data-toggle="modal" data-target="#displayUserModal">{{ user.firstName }} {{ user.lastName }}</a></li>
+              <li ng-repeat="user in ctrl.allUsers" class="hamburgerToggler"> <a ng-click="ctrl.displayUser(user)" data-toggle="modal" data-target="#displayUserModal">{{ user.firstName }} {{ user.lastName }}</a></li>
             </ul>
             <button type="button" class="btn btn-primary hamburgerToggler" ng-click="ctrl.logout()">
               Logout
@@ -71,6 +76,8 @@
         </div>
       </div>
     </div>
+
+
     <!-- Create User Modal -->
     <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="createUserModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -166,7 +173,7 @@
 
 
 
-
+    <!-- Main Screen -->
 
     <div class="container">
       <h1 id="title">
@@ -180,6 +187,8 @@
       <div id="jokePane">
         {{ctrl.currentJoke.joke}}
         <i class="far fa-star" ng-click="ctrl.addJokeToFavorites()"></i>
+        <!-- When a joke has been favorited, the class and ng-click should look like this -->
+        <!-- <i class="fas fa-star" ng-click="ctrl.removeJokeFromFavorites()"></i> -->
       </div>
     </div>
 
