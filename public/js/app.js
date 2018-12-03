@@ -252,6 +252,7 @@ app.controller('MainController', ['$http', function($http){
         data: this.loggedUser
       }).then(function(res){
         console.log(res.data, 'response from this.addJokeToFavorites');
+        $('#' + controller.currentJoke.id + ' > i' ).addClass('fas').removeClass('far');
       }, function(error){
         console.log(error, 'error from this.addJokeToFavorites');
       })

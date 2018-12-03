@@ -186,9 +186,10 @@
 
       <div id="jokePane">
         <ul>
-          <li id="{{ctrl.currentJoke.id}}">{{ctrl.currentJoke.joke}}</li>
+          <li id="{{ctrl.currentJoke.id}}">{{ctrl.currentJoke.joke}}
+            <i class="far fa-star" ng-click="ctrl.addJokeToFavorites()"></i>
+          </li>
         </ul>
-        <i class="far fa-star" ng-click="ctrl.addJokeToFavorites()"></i>
         <!-- When a joke has been favorited, the class and ng-click should look like this -->
         <!-- <i class="fas fa-star" ng-click="ctrl.removeJokeFromFavorites()"></i> -->
       </div>
