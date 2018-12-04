@@ -247,25 +247,56 @@ app.controller('MainController', ['$http', function($http){
 
   this.addJokeToFavorites = function(){
     if (this.loggedUser.logged) {
-      this.loggedUser.favoriteJokes.push(this.currentJoke);
-      $http({
-        url: 'session/edit/' + this.loggedUser._id,
-        method: 'PUT',
-        data: this.loggedUser
-      }).then(function(res){
-        console.log(res.data, 'response from this.addJokeToFavorites');
-        $('#' + controller.currentJoke.id + ' > i' ).addClass('fas').removeClass('far');
-      }, function(error){
-        console.log(error, 'error from this.addJokeToFavorites');
-      })
-      console.log(this.loggedUser, 'this.loggedUser after adding new joke')
-      // Update the logged user
-      // Run controller.getAllUsers to refresh the users list (so the newly-favorited joke will show up in their list)
+      // If the joke is currently in the logged user's jokes, remove it from the user's favorite jokes and update the user
+      if (this.checkJokeAgainstUsersFavorites(this.currentJoke.api_id)) {
+        let index = 0;
+        for (let i = 0; i < this.loggedUser.favoriteJokes.length; i++) {
+          if (this.currentJoke.api_id === this.loggedUser.favoriteJokes[i].api_id) {
+            index = i;
+          }
+        }
+        console.log(index, 'index')
+        this.loggedUser.favoriteJokes.splice(index,1);
+        console.log(this.loggedUser);
+        $http({
+          url: 'session/edit/' + this.loggedUser._id,
+          method: 'PUT',
+          data: this.loggedUser
+        }).then(function(res){
+          console.log(res.data, 'updated user after removing joke from favorites')
+          $('#' + controller.currentJoke.id + ' > i' ).removeClass('fas').addClass('far');
+        }, function(error){
+          console.log(error, 'error from trying to remove joke from user favorites')
+        })
+      } else {
+        // If the joke isn't in the logged user's jokes, push it into their favorite jokes array and update the user
+        this.loggedUser.favoriteJokes.push(this.currentJoke);
+        $http({
+          url: 'session/edit/' + this.loggedUser._id,
+          method: 'PUT',
+          data: this.loggedUser
+        }).then(function(res){
+          console.log(res.data, 'response from this.addJokeToFavorites');
+          $('#' + controller.currentJoke.id + ' > i' ).addClass('fas').removeClass('far');
+        }, function(error){
+          console.log(error, 'error from this.addJokeToFavorites');
+        })
+      }
+
     } else {
       console.log('user is not logged in');
       document.getElementById("hamburger").click();
     }
   };
+
+  this.checkJokeAgainstUsersFavorites = function(id){
+    for (let i = 0; i < this.loggedUser.favoriteJokes.length; i++) {
+      if (id === this.loggedUser.favoriteJokes[i].api_id) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   this.getRandomExternal();
   this.getAllUsers();

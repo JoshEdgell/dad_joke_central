@@ -167,8 +167,6 @@ router.post('/', (req,res)=>{
 // Edit a user
 router.put('/edit/:id', (req,res)=>{
   User.findOneAndUpdate(req.params.id, req.body, {new:true}, (err,updatedUser)=>{
-    console.log(err, 'error');
-    console.log(updatedUser, 'updatedUser');
     res.json(updatedUser);
   })
 });
