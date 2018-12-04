@@ -70,8 +70,11 @@ app.controller('MainController', ['$http', function($http){
       headers: { 'Accept':'application/json'}
     }).then(function(res){
       // Is it possible to check the id of the joke against the ids of the jokes in the loggedUser's favorited jokes to change the class of the star appearing after the joke?
-      console.log(res.data, 'response from this.getRandomExternal')
+      // console.log(res.data, 'response from this.getRandomExternal')
       controller.currentJoke = res.data;
+      // the api_id key of a joke is used for a common id system to put on a joke before getting a Mongo ID on the backend.
+      controller.currentJoke.api_id = res.data.id;
+      console.log(controller.currentJoke, 'currentJoke')
     }, function(error){
       console.log(error, 'error from this.getRandomExternal')
     })
@@ -243,7 +246,6 @@ app.controller('MainController', ['$http', function($http){
   };
 
   this.addJokeToFavorites = function(){
-    console.log('trying to add joke to favorites');
     if (this.loggedUser.logged) {
       this.loggedUser.favoriteJokes.push(this.currentJoke);
       $http({

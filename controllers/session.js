@@ -17,9 +17,9 @@ schema
 // Get all users
 router.get('/', (req,res)=>{
   User.find({}, (err, foundUsers)=>{
-    const users = [];
+    const userArray = [];
     for (let i = 0; i < foundUsers.length; i++) {
-      users.push({
+      userArray.push({
         _id: foundUsers[i]._id,
         username: foundUsers[i].username,
         firstName: foundUsers[i].firstName,
@@ -28,7 +28,7 @@ router.get('/', (req,res)=>{
         createdJokes: foundUsers[i].createdJokes
       });
     }
-    res.send(users);
+    res.send(userArray);
   })
 });
 
@@ -128,7 +128,7 @@ router.post('/', (req,res)=>{
     const userDbEntry = req.body;
     userDbEntry.password = bcrypt.hashSync(userDbEntry.password, bcrypt.genSaltSync(10));
     User.create(userDbEntry, (err,user)=>{
-      console.log(user, 'created user');
+      // console.log(user, 'created user');
       req.session.username = user.username;
       req.session.logged = true;
       req.session._id = user._id;
@@ -166,14 +166,12 @@ router.post('/', (req,res)=>{
 
 // Edit a user
 router.put('/edit/:id', (req,res)=>{
-  console.log('edit user route accessed');
-  User.findByIdAndUpdate(req.params.id, req.body, {new:true}, (err,foundUser)=>{
-    foundUser.save((err,data)=>{
-      console.log(data, "What I'm trying to send back.")
-      res.json(data);
-    })
+  User.findOneAndUpdate(req.params.id, req.body, {new:true}, (err,updatedUser)=>{
+    console.log(err, 'error');
+    console.log(updatedUser, 'updatedUser');
+    res.json(updatedUser);
   })
-})
+});
 
 router.get('/dropdatabase',(req,res)=>{
   users.collection.drop();
@@ -189,7 +187,7 @@ router.get('/:id', (req,res)=>{
 
 // Delete a user
 router.delete('/:id', (req,res)=>{
-  users.findByIdAndRemove(req.params.id, (error, deletedUser)=>{
+  users.findOneAndDelete(req.params.id, (error, deletedUser)=>{
     res.json(deletedUser);
   })
 });
