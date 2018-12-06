@@ -250,25 +250,25 @@ app.controller('MainController', ['$http', function($http){
     if (this.loggedUser.logged) {
       // If the joke is currently in the logged user's jokes, remove it from the user's favorite jokes and update the user
       if (this.checkJokeAgainstUsersFavorites(this.currentJoke.api_id)) {
-        let index = 0;
-        for (let i = 0; i < this.loggedUser.favoriteJokes.length; i++) {
-          if (this.currentJoke.api_id === this.loggedUser.favoriteJokes[i].api_id) {
-            index = i;
-          }
-        }
-        console.log(index, 'index')
-        this.loggedUser.favoriteJokes.splice(index,1);
-        console.log(this.loggedUser);
-        $http({
-          url: 'session/edit/' + this.loggedUser._id,
-          method: 'PUT',
-          data: this.loggedUser
-        }).then(function(res){
-          console.log(res.data, 'updated user after removing joke from favorites')
-          $('#' + controller.currentJoke.id + ' > i' ).removeClass('fas').addClass('far');
-        }, function(error){
-          console.log(error, 'error from trying to remove joke from user favorites')
-        })
+        // let index = 0;
+        // for (let i = 0; i < this.loggedUser.favoriteJokes.length; i++) {
+        //   if (this.currentJoke.api_id === this.loggedUser.favoriteJokes[i].api_id) {
+        //     index = i;
+        //   }
+        // }
+        // console.log(index, 'index')
+        // this.loggedUser.favoriteJokes.splice(index,1);
+        // console.log(this.loggedUser);
+        // $http({
+        //   url: 'session/edit/' + this.loggedUser._id,
+        //   method: 'PUT',
+        //   data: this.loggedUser
+        // }).then(function(res){
+        //   console.log(res.data, 'updated user after removing joke from favorites')
+        //   $('#' + controller.currentJoke.id + ' > i' ).removeClass('fas').addClass('far');
+        // }, function(error){
+        //   console.log(error, 'error from trying to remove joke from user favorites')
+        // })
       } else {
         // If the joke isn't in the logged user's jokes, push it into their favorite jokes array and update the user
         this.loggedUser.favoriteJokes.push(this.currentJoke);
@@ -290,10 +290,33 @@ app.controller('MainController', ['$http', function($http){
     }
   };
 
-  this.removeJokeFromFavorites = function(id){
+  this.removeJokeFromFavorites = function(){
+
+    let index = 0;
+    for (let i = 0; i < this.loggedUser.favoriteJokes.length; i++) {
+      if (this.targetJoke.api_id === this.loggedUser.favoriteJokes[i].api_id) {
+        this.loggedUser.favoriteJokes.splice(index,1);
+        i--;
+      }
+    }
+    $http({
+      url: 'session/edit/' + this.loggedUser._id,
+      method: 'PUT',
+      data: this.loggedUser
+    }).then(function(res){
+      this.loggedUser = res.data;
+      // Change the filled-in star
+      $('.' + controller.targetJoke.api_id).removeClass('fas').addClass('far');
+    }, function(error){
+      console.log(error, 'error from trying to remove joke from user favorites')
+    })
+
+
   };
 
-  this.favorite = function(){
+  this.favorite = function(joke){
+    // Since this method receives the joke object that could be passed in either from a user's display modal or from a joke currently displayed on the main screen, this.targetJoke is defined here (it doesn't have a key in the controller) and will be used in both
+    this.targetJoke = joke
     // If the user is not logged in, prompt the user to log in
     if (!this.loggedUser.logged) {
       const hamburger = $('#hamburger');
@@ -301,11 +324,14 @@ app.controller('MainController', ['$http', function($http){
         hamburger.click();
       }
     } else {
-      // Check the loggedUser's favorite jokes array.
       // If the joke is not in the array, pass the joke id into the addJokeToFavorites method
-      // Otherwise, pass the joke id into the removeJokeFromFavorites method
+      // Else, pass the joke id into the removeJokeFromFavorites method
+      if (this.checkJokeAgainstUsersFavorites(this.targetJoke.api_id)) {
+        this.removeJokeFromFavorites();
+      } else {
+        this.addJokeToFavorites();
+      }
     }
-
   };
 
   this.checkJokeAgainstUsersFavorites = function(id){
@@ -318,6 +344,7 @@ app.controller('MainController', ['$http', function($http){
   };
 
   this.generateRandomKey = function(){
+    // Generate a random, 11-digit key to assign to a joke when a user creates one
     let string = '';
     while (string.length < 11) {
       let number = Math.floor(Math.random() * 75 + 48);
@@ -326,10 +353,6 @@ app.controller('MainController', ['$http', function($http){
       }
     }
     return string;
-  };
-
-  this.testReturn = function(){
-    console.log(this.generateRandomKey());
   };
 
   this.getRandomExternal();

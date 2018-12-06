@@ -148,7 +148,7 @@
             <div class="favoriteJokes" ng-show="ctrl.targetUser.favoriteJokes.length > 0">
               <h4>{{ctrl.targetUser.firstName}}'s Favorite Jokes</h4>
               <ul>
-                <li ng-repeat="joke in ctrl.targetUser.favoriteJokes">{{joke.joke}}<i id="{{joke.api_id}}" class="fas fa-star" ng-click="ctrl.favorite()"></i></li>
+                <li ng-repeat="joke in ctrl.targetUser.favoriteJokes">{{joke.joke}}<i class="fas fa-star {{joke.api_id}}" ng-click="ctrl.favorite(joke)"></i></li>
               </ul>
             </div>
             <div class="createdJokes" ng-show="ctrl.targetUser.createdJokes.length > 0">
@@ -189,7 +189,7 @@
       <div id="jokePane">
         <ul>
           <li>{{ctrl.currentJoke.joke}}
-            <i id="{{ctrl.currentJoke.id}}" class="far fa-star" ng-click="ctrl.favorite()"></i>
+            <i class="far fa-star {{ctrl.currentJoke.api_id}}" ng-click="ctrl.favorite(ctrl.currentJoke)"></i>
           </li>
         </ul>
       </div>
