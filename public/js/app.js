@@ -304,7 +304,9 @@ app.controller('MainController', ['$http', function($http){
       method: 'PUT',
       data: this.loggedUser
     }).then(function(res){
-      this.loggedUser = res.data;
+      controller.loggedUser = res.data;
+      controller.targetUser = res.data;
+
       // Change the filled-in star
       $('.' + controller.targetJoke.api_id).removeClass('fas').addClass('far');
     }, function(error){
