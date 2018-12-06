@@ -68,7 +68,11 @@
 
           <div ng-show="ctrl.userLoggedIn">
             <ul class="text-white h4">
-              <li ng-repeat="user in ctrl.allUsers" class="hamburgerToggler"> <a ng-click="ctrl.displayUser(user)" data-toggle="modal" data-target="#displayUserModal">{{ user.firstName }} {{ user.lastName }}</a></li>
+              <li ng-repeat="user in ctrl.allUsers">
+                <a class="hamburgerToggler" data-toggle="modal" data-target="#displayUserModal" ng-click="ctrl.displayUser(user)">
+                  {{ user.firstName }} {{ user.lastName }}
+                </a>
+              </li>
             </ul>
             <button type="button" class="btn btn-primary hamburgerToggler" ng-click="ctrl.logout()">
               Logout
@@ -143,6 +147,7 @@
           </div>
           <div class="modal-body">
             <div ng-show="ctrl.targetMatchesLogged">
+              <!-- If the logged user is looking at his own modal, he'll be able to edit his settings -->
               <h2>Edit {{ctrl.targetUser.username}}</h2>
             </div>
             <div class="favoriteJokes" ng-show="ctrl.targetUser.favoriteJokes.length > 0">
@@ -154,7 +159,10 @@
             <div class="createdJokes" ng-show="ctrl.targetUser.createdJokes.length > 0">
               <h4>{{ctrl.targetUser.firstName}}'s Created Jokes</h4>
               <ul>
-                <li ng-repeat="joke in ctrl.targetUser.createdJokes">joke</li>
+                <li ng-repeat="joke in ctrl.targetUser.createdJokes">
+                  {{joke.joke}}
+                  <i class="fas fa-star {{joke.api_id}}" ng-click="ctrl.favorite(joke)"></i>
+                </li>
               </ul>
             </div>
 
