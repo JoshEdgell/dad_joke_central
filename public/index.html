@@ -28,6 +28,8 @@
 
     <!-- Navbar -->
 
+    <button ng-click="ctrl.testReturn()">Generate</button>
+
     <div class="pos-f-t">
       <nav class="navbar navbar-dark bg-primary">
         <button id="hamburger" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -146,7 +148,7 @@
             <div class="favoriteJokes" ng-show="ctrl.targetUser.favoriteJokes.length > 0">
               <h4>{{ctrl.targetUser.firstName}}'s Favorite Jokes</h4>
               <ul>
-                <li ng-repeat="joke in ctrl.targetUser.favoriteJokes">joke</li>
+                <li ng-repeat="joke in ctrl.targetUser.favoriteJokes">{{joke.joke}}<i id="{{joke.api_id}}" class="fas fa-star" ng-click="ctrl.favorite()"></i></li>
               </ul>
             </div>
             <div class="createdJokes" ng-show="ctrl.targetUser.createdJokes.length > 0">
@@ -186,12 +188,10 @@
 
       <div id="jokePane">
         <ul>
-          <li id="{{ctrl.currentJoke.id}}">{{ctrl.currentJoke.joke}}
-            <i class="far fa-star" ng-click="ctrl.addJokeToFavorites()"></i>
+          <li>{{ctrl.currentJoke.joke}}
+            <i id="{{ctrl.currentJoke.id}}" class="far fa-star" ng-click="ctrl.favorite()"></i>
           </li>
         </ul>
-        <!-- When a joke has been favorited, the class and ng-click should look like this -->
-        <!-- <i class="fas fa-star" ng-click="ctrl.removeJokeFromFavorites()"></i> -->
       </div>
     </div>
 

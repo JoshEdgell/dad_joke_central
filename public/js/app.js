@@ -240,6 +240,7 @@ app.controller('MainController', ['$http', function($http){
   this.displayUser = function(user) {
     console.log(user, 'clicked user');
     if (user._id === this.loggedUser._id) {
+      console.log('target matches logged');
       this.targetMatchesLogged = true;
     }
     this.targetUser = user;
@@ -289,6 +290,24 @@ app.controller('MainController', ['$http', function($http){
     }
   };
 
+  this.removeJokeFromFavorites = function(id){
+  };
+
+  this.favorite = function(){
+    // If the user is not logged in, prompt the user to log in
+    if (!this.loggedUser.logged) {
+      const hamburger = $('#hamburger');
+      if (hamburger.attr('aria-expanded') === 'false') {
+        hamburger.click();
+      }
+    } else {
+      // Check the loggedUser's favorite jokes array.
+      // If the joke is not in the array, pass the joke id into the addJokeToFavorites method
+      // Otherwise, pass the joke id into the removeJokeFromFavorites method
+    }
+
+  };
+
   this.checkJokeAgainstUsersFavorites = function(id){
     for (let i = 0; i < this.loggedUser.favoriteJokes.length; i++) {
       if (id === this.loggedUser.favoriteJokes[i].api_id) {
@@ -296,7 +315,22 @@ app.controller('MainController', ['$http', function($http){
       }
     }
     return false;
-  }
+  };
+
+  this.generateRandomKey = function(){
+    let string = '';
+    while (string.length < 11) {
+      let number = Math.floor(Math.random() * 75 + 48);
+      if ( !(57 < number && number < 65) && !(90 < number && number < 97) ) {
+        string += String.fromCharCode(number);
+      }
+    }
+    return string;
+  };
+
+  this.testReturn = function(){
+    console.log(this.generateRandomKey());
+  };
 
   this.getRandomExternal();
   this.getAllUsers();
