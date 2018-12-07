@@ -28,8 +28,6 @@
 
     <!-- Navbar -->
 
-    <button ng-click="ctrl.testReturn()">Generate</button>
-
     <div class="pos-f-t">
       <nav class="navbar navbar-dark bg-primary">
         <button id="hamburger" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,7 +41,7 @@
 
 
           <!-- Login Form -->
-          <form ng-submit="ctrl.login()" class="text-white h4" ng-show="!ctrl.userLoggedIn">
+          <form ng-submit="ctrl.login()" class="text-white h4" id="loginForm" ng-show="!ctrl.userLoggedIn">
 
             <div class="form-group text-white h4">
               <label for="loginUsername">username</label>
@@ -55,7 +53,7 @@
               <input type="password" class="form-control" id="loginPassword" placeholder="Password" ng-model="ctrl.loginInfo.password">
             </div>
 
-            <button type="submit" class="btn btn-primary hamburgerToggler">Login</button>
+            <button type="submit" id="loginButton" class="btn btn-primary hamburgerToggler">Login</button>
             <button type="button" class="btn btn-primary hamburgerToggler" data-toggle="modal" data-target="#createUserModal">
               Create an Account
             </button>
@@ -69,7 +67,7 @@
           <div ng-show="ctrl.userLoggedIn">
             <ul class="text-white h4">
               <li ng-repeat="user in ctrl.allUsers">
-                <a class="hamburgerToggler" data-toggle="modal" data-target="#displayUserModal" ng-click="ctrl.displayUser(user)">
+                <a class="hamburgerToggler userLink" data-toggle="modal" data-target="#displayUserModal" ng-click="ctrl.displayUser(user)">
                   {{ user.firstName }} {{ user.lastName }}
                 </a>
               </li>

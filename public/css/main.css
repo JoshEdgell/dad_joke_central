@@ -13,6 +13,11 @@ body {
   width: 80%;
 }
 
+.favoriteAdd {
+  display: block;
+  
+}
+
 #title {
   font-family: 'Bangers', cursive;
   letter-spacing: 0.09em;

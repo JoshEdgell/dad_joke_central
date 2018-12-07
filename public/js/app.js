@@ -74,7 +74,7 @@ app.controller('MainController', ['$http', function($http){
       controller.currentJoke = res.data;
       // the api_id key of a joke is used for a common id system to put on a joke before getting a Mongo ID on the backend.
       controller.currentJoke.api_id = res.data.id;
-      console.log(controller.currentJoke, 'currentJoke')
+      // console.log(controller.currentJoke, 'currentJoke')
     }, function(error){
       console.log(error, 'error from this.getRandomExternal')
     })
@@ -167,7 +167,7 @@ app.controller('MainController', ['$http', function($http){
       method: 'GET',
       url: 'session'
     }).then(function(res){
-      console.log(res.data, 'response from this.getAllUsers');
+      // console.log(res.data, 'response from this.getAllUsers');
       controller.allUsers = res.data;
     }, function(error){
       console.log(error, 'error from this.getAllUsers');
