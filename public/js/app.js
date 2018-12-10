@@ -51,12 +51,12 @@ app.controller('MainController', ['$http', function($http){
   };
 
   // Get a random joke from my API
-  this.getRandomJoke = function(){
+  this.getRandomInternal = function(){
     $http({
       method: 'GET',
       url: '/jokes/random'
     }).then(function(res){
-      console.log(res.data, 'response from this.getRandomJoke');
+      console.log(res.data, 'response from this.getRandomInternal');
     }, function(error){
       console.log(error, 'error from this.getRandomJoke');
     })
@@ -97,16 +97,24 @@ app.controller('MainController', ['$http', function($http){
 
   // Create a joke
   this.createJoke = function(num){
+    console.log(this.loggedUser, 'logged user')
     $http({
       method: 'POST',
-      url: '/jokes',
+      url: '/jokes/' + this.loggedUser._id,
       data: {
-        username: 'josh_edgell',
-        joke: 'Joke ' + num + ' test body'
+        joke: this.createJokeText,
+        api_id: this.generateRandomKey(),
+        username: this.loggedUser.username
       }
     }).then(
       function(res){
-        console.log(res.data, 'response from this.createJoke');
+        controller.createJokeText = '';
+        controller.getAllUsers();
+        controller.loggedUser = res.data;
+        controller.loggedUser.logged = true;
+        if (controller.targetMatchesLogged) {
+          controller.targetUser = res.data;
+        }
       }, function(error){
         console.log(error, 'error from this.createJoke');
       }
@@ -114,10 +122,10 @@ app.controller('MainController', ['$http', function($http){
   };
 
   // Get a particular joke
-  this.getJoke = function(){
+  this.getJoke = function(id){
     $http({
       method: 'GET',
-      url: '/5be9c03334cd1118074f4f0f'
+      url: '/jokes/' + id
     }).then(function(res){
       console.log(res.data, 'response from this.getJoke');
     }, function(error){
@@ -127,11 +135,15 @@ app.controller('MainController', ['$http', function($http){
 
   // Delete a joke
   this.deleteJoke = function(id){
+    console.log(id, 'joke id to be deleted')
     $http({
       method: 'DELETE',
       url: '/jokes/' + id
     }).then(function(res){
       console.log(res, 'response form this.deleteJoke');
+      controller.loggedUser = res.data,
+      controller.loggedUser.logged = true;
+      controller.targetUser = controller.loggedUser;
     }, function(error){
       console.log(error, 'error from this.deleteJoke');
     })
@@ -156,6 +168,7 @@ app.controller('MainController', ['$http', function($http){
       console.log(res.data, 'response from this.createUser');
       controller.loggedUser = res.data;
       controller.userLoggedIn = res.data.logged;
+      controller.getAllUsers();
     }, function(error){
       console.log(error, 'error from this.createUser');
     })
@@ -258,17 +271,22 @@ app.controller('MainController', ['$http', function($http){
       controller.getAllUsers();
       controller.loggedUser = res.data;
       controller.loggedUser.logged = true;
-      console.log(controller.loggedUser, 'logged user after adding joke')
       if (controller.targetMatchesLogged) {
         controller.targetUser = res.data;
       }
-      $('.' + controller.targetJoke.api_id).removeClass('far').addClass('fas');
+      const $newDiv = $('<div/>').addClass('favoriteAdd').append($('<p/>').text('Favorited!'));
+      $('.' + controller.targetJoke.api_id).removeClass('far').addClass('fas').append($newDiv);
+      setTimeout(()=>{
+        $('.favoriteAdd').remove();
+      },1000);
     }, function(error){
       console.log(error, 'error from this.addJokeToFavorites');
     })
   };
 
   this.removeJokeFromFavorites = function(){
+    const $foundLi = $('.' + this.targetJoke.api_id);
+    console.log($foundLi, 'found li')
     for (let i = 0; i < this.loggedUser.favoriteJokes.length; i++) {
       if (this.targetJoke.api_id === this.loggedUser.favoriteJokes[i].api_id) {
         this.loggedUser.favoriteJokes.splice(i,1);
@@ -286,8 +304,11 @@ app.controller('MainController', ['$http', function($http){
       if (controller.targetMatchesLogged) {
         controller.targetUser = res.data;
       }
-      // Change the filled-in star
-      $('.' + controller.targetJoke.api_id).removeClass('fas').addClass('far');
+      const $newDiv = $('<div/>').addClass('favoriteAdd').append($('<p/>').text('Unfavorited'));
+      $('.' + controller.targetJoke.api_id).removeClass('fas').addClass('far').append($newDiv);
+      setTimeout(()=>{
+        $('.favoriteAdd').remove();
+      },1000);
     }, function(error){
       console.log(error, 'error from trying to remove joke from user favorites')
     })
@@ -300,11 +321,19 @@ app.controller('MainController', ['$http', function($http){
     this.targetJoke = joke
     // If the user is not logged in, prompt the user to log in
     if (!this.loggedUser.logged) {
+      console.log('user not logged in');
+      const $newDiv = $('<div/>').addClass('favoriteAdd').append($('<p/>').text('Log in, please'));
+      $('.' + controller.targetJoke.api_id).append($newDiv);
+      setTimeout(()=>{
+        $('.favoriteAdd').remove();
+      },900);
+      // This toggles the hamburger menu at the top of the page
       const hamburger = $('#hamburger');
       if (hamburger.attr('aria-expanded') === 'false') {
         hamburger.click();
       }
     } else {
+      console.log('user logged in');
       // If the joke is not in the array, pass the joke id into the addJokeToFavorites method
       // Else, pass the joke id into the removeJokeFromFavorites method
       if (this.checkJokeAgainstUsersFavorites(this.targetJoke.api_id)) {

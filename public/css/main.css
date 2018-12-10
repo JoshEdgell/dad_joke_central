@@ -14,8 +14,16 @@ body {
 }
 
 .favoriteAdd {
-  display: block;
-  
+  position: absolute;
+  background-color: rgb(219, 219, 219);
+  max-height: 1em;
+  margin-top: -2em;
+  margin-left: 1em;
+  font-weight: normal;
+  font-size: 0.5em;
+  animation: favoriteSlide;
+  animation-duration: 1s;
+  animation-timing-function: ease-in;
 }
 
 #title {
@@ -49,6 +57,7 @@ body {
 #jokePane {
   display: block;
   width: 45%;
+  z-index: 1;
   margin: 0 auto;
   margin-top: 8em;
   text-align: center;
@@ -100,5 +109,16 @@ button.bg-primary:focus {
   }
   100% {display: inline-block;
     transform: scale(1);
+  }
+}
+
+@keyframes favoriteSlide {
+  0% {
+    transform: translateY(0em);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10em);
+    opacity: 0;
   }
 }

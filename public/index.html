@@ -151,7 +151,7 @@
             <div class="favoriteJokes" ng-show="ctrl.targetUser.favoriteJokes.length > 0">
               <h4>{{ctrl.targetUser.firstName}}'s Favorite Jokes</h4>
               <ul>
-                <li ng-repeat="joke in ctrl.targetUser.favoriteJokes">{{joke.joke}}<i class="fas fa-star {{joke.api_id}}" ng-click="ctrl.favorite(joke)"></i></li>
+                <li ng-repeat="joke in ctrl.targetUser.favoriteJokes">{{joke.joke}}<i class="{{joke.api_id}} fas fa-star" ng-click="ctrl.favorite(joke)"></i></li>
               </ul>
             </div>
             <div class="createdJokes" ng-show="ctrl.targetUser.createdJokes.length > 0">
@@ -159,9 +159,22 @@
               <ul>
                 <li ng-repeat="joke in ctrl.targetUser.createdJokes">
                   {{joke.joke}}
-                  <i class="fas fa-star {{joke.api_id}}" ng-click="ctrl.favorite(joke)"></i>
+                  <i class="fas fa-star {{joke.api_id}}" ng-click="ctrl.favorite(joke)" ng-show="!ctrl.targetMatchesLogged"></i>
+                  <button class="btn btn-primary" ng-click="ctrl.deleteJoke(joke._id)">Delete</button>
                 </li>
               </ul>
+            </div>
+            <div class="createAJoke" ng-show="ctrl.targetMatchesLogged">
+              <h4>
+                Create A Joke
+              </h4>
+              <form ng-submit="ctrl.createJoke()">
+                <div class="form-group">
+                  <label for="creatJokeText">Joke Text</label>
+                  <input type="text" class="form-control" id="createJokeText" placeholder="Joke Text" ng-model="ctrl.createJokeText">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
             </div>
 
 
@@ -195,7 +208,7 @@
       <div id="jokePane">
         <ul>
           <li>{{ctrl.currentJoke.joke}}
-            <i class="far fa-star {{ctrl.currentJoke.api_id}}" ng-click="ctrl.favorite(ctrl.currentJoke)"></i>
+            <i class="{{ctrl.currentJoke.api_id}} far fa-star" ng-click="ctrl.favorite(ctrl.currentJoke)"></i>
           </li>
         </ul>
       </div>

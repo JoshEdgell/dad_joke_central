@@ -171,6 +171,7 @@ router.put('/edit/:id', (req,res)=>{
   })
 });
 
+// Drop database (REMOVE BEFORE DEPLOY)
 router.get('/dropdatabase',(req,res)=>{
   users.collection.drop();
   res.send('user database dropped');

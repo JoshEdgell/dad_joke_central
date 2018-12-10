@@ -25,10 +25,22 @@ router.get('/random', (req,res)=>{
 });
 
 // Create new joke
-router.post('/', (req,res)=>{
+router.post('/:id', (req,res)=>{
   jokes.create(req.body, (error, newJoke)=>{
-    res.json(newJoke);
+    User.findById(req.params.id, (error, foundUser)=>{
+      foundUser.createdJokes.push(newJoke);
+      foundUser.favoriteJokes.push(newJoke);
+      foundUser.save((error, data)=>{
+        res.json(data);
+      })
+    });
   })
+});
+
+// Drop database (REMOVE BEFORE DEPLOY)
+router.get('/dropdatabase',(req,res)=>{
+  jokes.collection.drop();
+  res.send('joke database dropped');
 });
 
 // Get a joke
@@ -48,8 +60,16 @@ router.put('/:id', (req,res)=>{
 
 // Delete joke
 router.delete('/:id', (req,res)=>{
-  jokes.findByIdAndRemove(req.params.id, (error, deletedJoke)=>{
-    res.json(deletedJoke);
+  jokes.findByIdAndRemove({'_id': req.params.id}, (error, foundJoke)=>{
+    User.findOne({'createdJokes._id': req.params.id}, (error, foundUser)=>{
+      foundUser.createdJokes.id(req.params.id).remove();
+      foundUser.favoriteJokes.id(req.params.id).remove();
+      foundUser.save((error, data)=>{
+        console.log(foundJoke, 'found joke');
+        console.log(foundUser, 'found user');
+        res.json(data);
+      })
+    })
   })
 });
 
