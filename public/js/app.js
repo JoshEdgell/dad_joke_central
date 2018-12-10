@@ -133,12 +133,17 @@ app.controller('MainController', ['$http', function($http){
     })
   };
 
-  this.openEditTab = function(id){
-    // this.noOtherEdits is not listed in the controller, and is triggered when a user clicks the edit button for a joke.  Its purpose is to remove all edit buttons from jokes when a user is trying to edit a joke
-    this.noOtherEdits = true;
-    const $editLi = $('.created.' + id);
-    const $newDiv = $('<div/>').addClass('editJoke');
-    $editLi.append($newDiv);
+  this.editJoke = function(){
+    console.log(this.jokeToEdit, 'joke to edit');
+    $http({
+      method: 'PUT',
+      url: '/jokes/' + this.jokeToEdit._id,
+      data: this.jokeToEdit
+    }).then(function(response){
+      console.log(response, 'response from this.editJoke');
+    }, function(error){
+      console.log(error, 'error from this.editJoke');
+    })
   };
 
   // Delete a joke

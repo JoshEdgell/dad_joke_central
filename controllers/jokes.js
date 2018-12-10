@@ -52,9 +52,15 @@ router.get('/:id', (req,res)=>{
 
 // Edit joke (have to check, also have to edit joke in User's created jokes, as well as in favorited jokes for users)
 router.put('/:id', (req,res)=>{
-  jokes.findByIdAndUpdate(req.params.id, req.body, { new: true },
-  (err, update)=>{
-    res.json(update);
+  console.log(req.body, 'req.body');
+  jokes.findByIdAndUpdate(req.params.id, req.body, {new: true}, (error, updatedJoke)=>{
+    User.findOne({'createdJokes._id': req.params.id}, (error, foundUser)=>{
+      foundUser.createdJokes.id(req.params.id).remove();
+      foundUser.createdJokes.push(req.body);
+      foundUser.save((error, data)=>{
+        console.log(data, 'updated user');
+      })
+    })
   })
 });
 
