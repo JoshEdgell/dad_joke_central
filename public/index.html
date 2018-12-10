@@ -157,10 +157,30 @@
             <div class="createdJokes" ng-show="ctrl.targetUser.createdJokes.length > 0">
               <h4>{{ctrl.targetUser.firstName}}'s Created Jokes</h4>
               <ul>
-                <li ng-repeat="joke in ctrl.targetUser.createdJokes">
+                <li ng-repeat="joke in ctrl.targetUser.createdJokes" class="created {{joke.api_id}}">
                   {{joke.joke}}
                   <i class="fas fa-star {{joke.api_id}}" ng-click="ctrl.favorite(joke)" ng-show="!ctrl.targetMatchesLogged"></i>
                   <button class="btn btn-primary" ng-click="ctrl.deleteJoke(joke._id)">Delete</button>
+
+                  <div class="dropdown">
+                    <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     Edit
+                    </button>
+                      <form class="dropdown-menu p-4">
+                        <div class="form-group">
+                          <label for="jokeText">Joke Text</label>
+                          <textarea class="form-control" id="jokeText" ng-model="{{joke.joke}}"></textarea>
+
+
+                        </div>
+                        <button type="submit" class="btn btn-primary">Edit Joke</button>
+                      </form>
+                  </div>
+
+
+
+
+
                 </li>
               </ul>
             </div>
