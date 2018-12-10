@@ -52,13 +52,15 @@ router.get('/:id', (req,res)=>{
 
 // Edit joke (have to check, also have to edit joke in User's created jokes, as well as in favorited jokes for users)
 router.put('/:id', (req,res)=>{
-  console.log(req.body, 'req.body');
-  jokes.findByIdAndUpdate(req.params.id, req.body, {new: true}, (error, updatedJoke)=>{
+  jokes.findOneAndUpdate(req.params.id, req.body, {new: true}, (error, updatedJoke)=>{
     User.findOne({'createdJokes._id': req.params.id}, (error, foundUser)=>{
       foundUser.createdJokes.id(req.params.id).remove();
       foundUser.createdJokes.push(req.body);
+      foundUser.favoriteJokes.id(req.params.id).remove();
+      foundUser.favoriteJokes.push(req.body);
+      // I had considered finding all users that have favorited this joke and changing the jokes in their favorite jokes array, but this would allow a user who edits one of their jokes to turn the joke into something the other users don't actually want in their favorite joke arrays.
       foundUser.save((error, data)=>{
-        console.log(data, 'updated user');
+        res.json(data)
       })
     })
   })
@@ -66,7 +68,7 @@ router.put('/:id', (req,res)=>{
 
 // Delete joke
 router.delete('/:id', (req,res)=>{
-  jokes.findByIdAndRemove({'_id': req.params.id}, (error, foundJoke)=>{
+  jokes.findOneAndDelete({'_id': req.params.id}, (error, foundJoke)=>{
     User.findOne({'createdJokes._id': req.params.id}, (error, foundUser)=>{
       foundUser.createdJokes.id(req.params.id).remove();
       foundUser.favoriteJokes.id(req.params.id).remove();

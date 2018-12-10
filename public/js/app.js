@@ -95,6 +95,8 @@ app.controller('MainController', ['$http', function($http){
     })
   };
 
+  // After several of the joke operations call for the same 5/6 lines of code after the response.  Consider putting those lines into a method to run after joke CRUD/favorites
+
   // Create a joke
   this.createJoke = function(num){
     console.log(this.loggedUser, 'logged user')
@@ -140,7 +142,13 @@ app.controller('MainController', ['$http', function($http){
       url: '/jokes/' + this.jokeToEdit._id,
       data: this.jokeToEdit
     }).then(function(response){
-      console.log(response, 'response from this.editJoke');
+      controller.jokeToEdit = {};
+      controller.getAllUsers();
+      controller.loggedUser = response.data;
+      controller.loggedUser.logged = true;
+      if (controller.targetMatchesLogged) {
+        controller.targetUser = response.data;
+      }
     }, function(error){
       console.log(error, 'error from this.editJoke');
     })
