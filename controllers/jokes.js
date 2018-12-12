@@ -29,7 +29,6 @@ router.post('/:id', (req,res)=>{
   jokes.create(req.body, (error, newJoke)=>{
     User.findById(req.params.id, (error, foundUser)=>{
       foundUser.createdJokes.push(newJoke);
-      foundUser.favoriteJokes.push(newJoke);
       foundUser.save((error, data)=>{
         res.json(data);
       })

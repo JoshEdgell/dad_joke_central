@@ -196,24 +196,20 @@
                   </div>
 
 
-
-                  <button class="btn btn-primary" ng-click="ctrl.deleteJoke(joke._id)" ng-show="ctrl.targetMatchesLogged">Delete</button>
-
-                  <div class="dropdown" ng-show="ctrl.targetMatchesLogged">
-                    <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="ctrl.jokeToEdit = joke">
-                     Edit
-                    </button>
-                      <form class="dropdown-menu p-4">
-                        <div class="form-group">
-                          <label for="jokeText">Joke Text</label>
-                          <input type="text" class="form-control" ng-model="ctrl.jokeToEdit.joke"></input>
-
-
-                        </div>
-                        <button type="submit" class="btn btn-primary" ng-click="ctrl.editJoke()">Edit Joke</button>
-                        <button type="submit" class="btn btn-secondary" data-toggle="dropdown">Cancel</button>
-                      </form>
-                  </div>
+                    <button class="btn btn-primary" ng-click="ctrl.deleteJoke(joke._id)" ng-show="ctrl.targetMatchesLogged">Delete</button>
+                    <div class="dropdown" ng-show="ctrl.targetMatchesLogged">
+                      <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="ctrl.jokeToEdit = joke">
+                       Edit
+                      </button>
+                        <form class="dropdown-menu p-4">
+                          <div class="form-group">
+                            <label for="jokeText">Joke Text</label>
+                            <input type="text" class="form-control" ng-model="ctrl.jokeToEdit.joke"></input>
+                          </div>
+                          <button type="submit" class="btn btn-primary" ng-click="ctrl.editJoke()">Edit Joke</button>
+                          <button type="submit" class="btn btn-secondary" data-toggle="dropdown">Cancel</button>
+                        </form>
+                    </div>
                 </li>
               </ul>
             </div>

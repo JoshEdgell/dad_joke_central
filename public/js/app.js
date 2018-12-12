@@ -98,7 +98,7 @@ app.controller('MainController', ['$http', function($http){
   // After several of the joke operations call for the same 5/6 lines of code after the response.  Consider putting those lines into a method to run after joke CRUD/favorites
 
   // Create a joke
-  this.createJoke = function(num){
+  this.createJoke = function(){
     console.log(this.loggedUser, 'logged user')
     $http({
       method: 'POST',
@@ -241,8 +241,8 @@ app.controller('MainController', ['$http', function($http){
       url: 'session/login',
       data: this.loginInfo,
       data: {
-        username: 'lisaedgell',
-        password: 'Tacocat2'
+        username: 'joshedgell',
+        password: 'Tacocat1'
       }
     }).then(function(response){
       if (response.status === 200) {
@@ -277,13 +277,15 @@ app.controller('MainController', ['$http', function($http){
     if (user._id === this.loggedUser._id) {
       console.log('target matches logged');
       this.targetMatchesLogged = true;
+    } else {
+      this.targetMatchesLogged = false;
     }
     this.targetUser = user;
     // Compare loggedUser's favorite jokes against user's favorite jokes
     // If user has a joke in his array that loggedUser also has
     // Find the checkbox on the app id matches the api_id of the joke
     // Set the checked property to 'true'
-    // The 0.1 second wait is to let the modal start to render
+    // The 0.25 second wait is to let the modal start to render
     setTimeout(()=>{
       for (let i = 0; i < this.targetUser.favoriteJokes.length; i++) {
         for (let j = 0; j < this.loggedUser.favoriteJokes.length; j++) {
@@ -299,7 +301,7 @@ app.controller('MainController', ['$http', function($http){
           }
         }
       }
-    }, 100);
+    }, 250);
 
   };
 
