@@ -178,12 +178,12 @@ app.controller('MainController', ['$http', function($http){
       url: '/session',
       // data: this.newUser
       data: {
-        firstName: 'Lisa',
+        firstName: 'Josh',
         lastName: 'Edgell',
-        username: 'lisaedgell',
+        username: 'joshedgell',
         // They said my password need to be 8 characters, so I chose Snow White and the Seven Dwarves
-        password: 'Tacocat2',
-        password2: 'Tacocat2'
+        password: 'Tacocat1',
+        password2: 'Tacocat1'
       }
     }).then(function(response){
       console.log(response.data, 'response from this.createUser');
@@ -241,8 +241,8 @@ app.controller('MainController', ['$http', function($http){
       url: 'session/login',
       data: this.loginInfo,
       data: {
-        username: 'lisaedgell',
-        password: 'Tacocat2'
+        username: 'joshedgell',
+        password: 'Tacocat1'
       }
     }).then(function(response){
       if (response.status === 200) {
@@ -273,7 +273,7 @@ app.controller('MainController', ['$http', function($http){
 
   this.displayUser = function(user) {
     console.log(user, 'clicked user');
-    console.log(this.loggedUser, 'logged user');
+    console.log(controller.loggedUser, 'logged user');
     if (user._id === this.loggedUser._id) {
       console.log('target matches logged');
       this.targetMatchesLogged = true;
@@ -289,6 +289,13 @@ app.controller('MainController', ['$http', function($http){
         for (let j = 0; j < this.loggedUser.favoriteJokes.length; j++) {
           if (this.targetUser.favoriteJokes[i].api_id === this.loggedUser.favoriteJokes[j].api_id) {
             $('#' + this.targetUser.favoriteJokes[i].api_id).prop('checked', true);
+          }
+        }
+      }
+      for (let i = 0; i < this.targetUser.createdJokes.length; i++) {
+        for (let j = 0; j < this.loggedUser.favoriteJokes.length; j++) {
+          if (this.targetUser.createdJokes[i].api_id === this.loggedUser.favoriteJokes[j].api_id) {
+            $('#' + this.targetUser.createdJokes[i].api_id).prop('checked', true);
           }
         }
       }
@@ -336,9 +343,9 @@ app.controller('MainController', ['$http', function($http){
       controller.getAllUsers();
       controller.loggedUser = response.data;
       controller.loggedUser.logged = true;
-      if (controller.targetMatchesLogged) {
-        controller.targetUser = response.data;
-      }
+      // if (controller.targetMatchesLogged) {
+      //   controller.targetUser = response.data;
+      // }
 
 
       // const $newDiv = $('<div/>').addClass('favoriteAdd').append($('<p/>').text('Favorited!'));
@@ -416,4 +423,5 @@ app.controller('MainController', ['$http', function($http){
 
   this.getRandomExternal();
   this.getAllUsers();
+  this.login();
 }]);

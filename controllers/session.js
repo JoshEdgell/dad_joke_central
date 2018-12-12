@@ -108,9 +108,16 @@ router.post('/', (req,res)=>{
 
 // Edit a user
 router.put('/edit/:id', (req,res)=>{
-  User.findOneAndUpdate(req.body._id, req.body, {new:true}, (err,updatedUser)=>{
+  User.findOneAndUpdate( { _id: req.body._id}, req.body, {new:true}, (err,updatedUser)=>{
+    if (err) {
+      console.log(err);
+    }
     res.json(updatedUser);
   })
+
+  // User.findOne({ '_id': req.body._id}, (err, updatedUser)=>{
+  //
+  // })
 });
 
 // Drop database (REMOVE BEFORE DEPLOY)

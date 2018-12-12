@@ -182,14 +182,16 @@
               </ul>
             </div>
             <div class="createdJokes" ng-show="ctrl.targetUser.createdJokes.length > 0">
-              <h4>{{ctrl.targetUser.firstName}}'s Created Jokes</h4>
+              <h4>
+                {{ctrl.targetUser.firstName}}'s Created Jokes
+              </h4>
               <ul>
                 <li ng-repeat="joke in ctrl.targetUser.createdJokes" class="created {{joke.api_id}}">
                   {{joke.joke}}
                   <!-- <i class="far fa-star {{joke.api_id}}" ng-click="ctrl.favorite(joke)" ng-show="!ctrl.targetMatchesLogged"></i> -->
 
                   <div class="emoji-toggle">
-                    <input type="checkbox" class="toggle" ng-click="ctrl.favorite()">
+                    <input type="checkbox" class="toggle" id="{{joke.api_id}}" ng-click="ctrl.favorite(joke)">
                     <div class="emoji"></div>
                   </div>
 
