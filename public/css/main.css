@@ -13,17 +13,45 @@ body {
   width: 80%;
 }
 
-.favoriteAdd {
+.emoji-toggle {
+  position: relative;
+  width: 60px;
+  margin: 40px auto;
+  display: block;
+  background: #eee;
+  height: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.toggle {
+  opacity: 0;
+  border: 0;
+  outline: none;
+  height: 100%;
+  width: 100%;
+  background: transparent;
   position: absolute;
-  background-color: rgb(219, 219, 219);
-  max-height: 1em;
-  margin-top: -2em;
-  margin-left: 1em;
-  font-weight: normal;
-  font-size: 0.5em;
-  animation: favoriteSlide;
-  animation-duration: 1s;
-  animation-timing-function: ease-in;
+  cursor: pointer;
+  z-index: 100;
+  transform: scale(2);
+}
+.toggle ~ .emoji:before {
+  content: "\01F431";
+  position: absolute;
+  left: 0;
+  top: -15px;
+  font-size: 40px;
+  transition: 0.2s;
+}
+.toggle:checked ~ .emoji:before {
+  left: 100%;
+  margin-left: -1em;
+}
+.toggle ~ .emoji:before {
+  content: "😐";
+}
+.toggle:checked ~ .emoji:before {
+  content: "😂";
 }
 
 .editJoke {
@@ -115,16 +143,5 @@ button.bg-primary:focus {
   }
   100% {display: inline-block;
     transform: scale(1);
-  }
-}
-
-@keyframes favoriteSlide {
-  0% {
-    transform: translateY(0em);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-10em);
-    opacity: 0;
   }
 }

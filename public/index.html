@@ -36,11 +36,13 @@
       </nav>
       <div class="collapse" id="navbarToggleExternalContent">
         <div class="bg-primary p-4">
-          <!-- <h5 class="text-white h4">Collapsed content</h5> -->
-          <!-- <span class="text-muted">Toggleable via the navbar brand.</span> -->
+
+
+
 
 
           <!-- Login Form -->
+
           <form ng-submit="ctrl.login()" class="text-white h4" id="loginForm" ng-show="!ctrl.userLoggedIn">
 
             <div class="form-group text-white h4">
@@ -60,9 +62,12 @@
 
           </form>
 
+
+
+
+
+
           <!-- Logged User Navbar -->
-
-
 
           <div ng-show="ctrl.userLoggedIn">
             <ul class="text-white h4">
@@ -80,6 +85,9 @@
         </div>
       </div>
     </div>
+
+
+
 
 
     <!-- Create User Modal -->
@@ -126,19 +134,24 @@
               </div>
             </form>
 
-
-
           </div>
         </div>
       </div>
     </div>
+
+
+
+
+
 
     <!-- Display User Modal -->
     <div class="modal fade" id="displayUserModal" tabindex="-1" role="dialog" aria-labelledby="displayUserModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="displayUserModalLabel">{{ctrl.targetUser.firstName}} {{ctrl.targetUser.lastName}}</h5>
+            <h5 class="modal-title" id="displayUserModalLabel">
+              {{ctrl.targetUser.firstName}} {{ctrl.targetUser.lastName}}
+            </h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -149,9 +162,23 @@
               <h2>Edit {{ctrl.targetUser.username}}</h2>
             </div>
             <div class="favoriteJokes" ng-show="ctrl.targetUser.favoriteJokes.length > 0">
-              <h4>{{ctrl.targetUser.firstName}}'s Favorite Jokes</h4>
+              <h4>
+                {{ctrl.targetUser.firstName}}'s Favorite Jokes
+              </h4>
               <ul>
-                <li ng-repeat="joke in ctrl.targetUser.favoriteJokes">{{joke.joke}}<i class="{{joke.api_id}} fas fa-star" ng-click="ctrl.favorite(joke)"></i></li>
+                <li ng-repeat="joke in ctrl.targetUser.favoriteJokes">
+                  {{joke.joke}}
+                  <!-- <i class="{{joke.api_id}} fas fa-star" ng-click="ctrl.favorite(joke)" ng-show="ctrl.targetMatchesLogged"></i>
+                  <i class="{{joke.api_id}} far fa-star" ng-click="ctrl.favorite(joke)" ng-show="!ctrl.targetMatchesLogged"></i> -->
+
+                  <div class="emoji-toggle">
+                    <input type="checkbox" class="toggle" id="{{joke.api_id}}" ng-click="ctrl.favorite(joke)">
+                    <div class="emoji"></div>
+                  </div>
+
+
+
+                </li>
               </ul>
             </div>
             <div class="createdJokes" ng-show="ctrl.targetUser.createdJokes.length > 0">
@@ -159,10 +186,18 @@
               <ul>
                 <li ng-repeat="joke in ctrl.targetUser.createdJokes" class="created {{joke.api_id}}">
                   {{joke.joke}}
-                  <i class="fas fa-star {{joke.api_id}}" ng-click="ctrl.favorite(joke)" ng-show="!ctrl.targetMatchesLogged"></i>
-                  <button class="btn btn-primary" ng-click="ctrl.deleteJoke(joke._id)">Delete</button>
+                  <!-- <i class="far fa-star {{joke.api_id}}" ng-click="ctrl.favorite(joke)" ng-show="!ctrl.targetMatchesLogged"></i> -->
 
-                  <div class="dropdown">
+                  <div class="emoji-toggle">
+                    <input type="checkbox" class="toggle" ng-click="ctrl.favorite()">
+                    <div class="emoji"></div>
+                  </div>
+
+
+
+                  <button class="btn btn-primary" ng-click="ctrl.deleteJoke(joke._id)" ng-show="ctrl.targetMatchesLogged">Delete</button>
+
+                  <div class="dropdown" ng-show="ctrl.targetMatchesLogged">
                     <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-click="ctrl.jokeToEdit = joke">
                      Edit
                     </button>
@@ -224,50 +259,20 @@
       <div id="jokePane">
         <ul>
           <li>{{ctrl.currentJoke.joke}}
-            <i class="{{ctrl.currentJoke.api_id}} far fa-star" ng-click="ctrl.favorite(ctrl.currentJoke)"></i>
+            <!-- <i class="{{ctrl.currentJoke.api_id}} far fa-star" ng-click="ctrl.favorite(ctrl.currentJoke)"></i> -->
+
+            <div class="emoji-toggle">
+              <input type="checkbox" class="toggle" ng-click="ctrl.favorite(ctrl.currentJoke)">
+              <div class="emoji"></div>
+            </div>
+
+
+
+
           </li>
         </ul>
       </div>
     </div>
-
-
-
-
-    <!--
-
-    <form ng-submit="ctrl.logout()">
-      <button type="submit" class="btn btn-primary">Logout</button>
-    </form>  -->
-
-
-
-    <!-- Get random joke from API -->
-
-    <!-- <form ng-submit="ctrl.getRandomExternal()">
-      <button type="submit" class="btn btn-primary">Get Joke</button>
-    </form> -->
-
-
-
-
-
-    <!-- Search Term in API -->
-    <!-- <form ng-submit="ctrl.searchJokes(searchTerm)">
-
-      <div class="form-group">
-        <label for="searchTerm">Search Term</label>
-        <input type="text" class="form-control" id="searchTerm" aria-describedby="searchTerm" placeholder="Enter Search Term" ng-model="searchTerm">
-      </div>
-
-      <button type="submit" class="btn btn-primary">Search</button>
-    </form> -->
-
-
-
-    <!-- Logout -->
-    <!-- <form ng-submit="ctrl.logout()">
-      <button type="submit" class="btn btn-primary">Logout</button>
-    </form> -->
 
 
 
