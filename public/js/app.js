@@ -241,8 +241,8 @@ app.controller('MainController', ['$http', function($http){
       url: 'session/login',
       data: this.loginInfo,
       data: {
-        username: 'joshedgell',
-        password: 'Tacocat1'
+        username: 'lisaedgell',
+        password: 'Tacocat2'
       }
     }).then(function(response){
       if (response.status === 200) {

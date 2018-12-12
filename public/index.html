@@ -190,7 +190,7 @@
                   {{joke.joke}}
                   <!-- <i class="far fa-star {{joke.api_id}}" ng-click="ctrl.favorite(joke)" ng-show="!ctrl.targetMatchesLogged"></i> -->
 
-                  <div class="emoji-toggle">
+                  <div class="emoji-toggle" ng-show="!ctrl.targetMatchesLogged">
                     <input type="checkbox" class="toggle" id="{{joke.api_id}}" ng-click="ctrl.favorite(joke)">
                     <div class="emoji"></div>
                   </div>
