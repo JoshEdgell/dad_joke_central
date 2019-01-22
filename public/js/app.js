@@ -460,4 +460,5 @@ app.controller('MainController', ['$http', function($http){
 
   this.getRandomExternal();
   this.getAllUsers();
+  this.passwordValidate('taco ')
 }]);

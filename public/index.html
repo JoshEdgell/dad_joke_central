@@ -125,21 +125,23 @@
               <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" placeholder="Password" ng-model="ctrl.newUser.password">
-                <div ng-show="!ctrl.validPassword.min">
-                  Password is too short
-                </div>
-                <div ng-show="!ctrl.validPassword.max">
-                  Password is too long
-                </div>
-                <div ng-show="!ctrl.validPassword.hasUpper">
-                  Password must have an uppercase
-                </div>
-                <div ng-show="!ctrl.validPassword.noSpaces">
-                  Password cannot have spaces
-                </div>
-                <div ng-show="!ctrl.validPassword.digit">
-                  Password must include a number
-                </div>
+                <ul>
+                <li ng-show="!ctrl.validPassword.min">
+                  My password needed 8 characters, so it's "Snow White & the Seven Dwarves" (password too short)
+                </li>
+                <li ng-show="!ctrl.validPassword.max">
+                  No joke here, your password is just too long (password more than 20 characters)
+                </li>
+                <li ng-show="!ctrl.validPassword.hasUpper">
+                  What's the capital of Texas?  T! (use a capital letter)
+                </li>
+                <li ng-show="!ctrl.validPassword.noSpaces">
+                  Where does an astronaut hang out?  At the space bar! (no spaces)
+                </li>
+                <li ng-show="!ctrl.validPassword.digit">
+                  4, 6, 8, and 9 were murdered.  2, 3, 5, and 7 are prime suspects (use a number)
+                </li>
+              </ul>
               </div>
 
               <div class="form-group">
