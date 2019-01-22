@@ -4,11 +4,56 @@ app.controller('MainController', ['$http', function($http){
   const controller = this;
   this.showLoginForm = true;
   this.userLoggedIn = false;
+  this.invalidUsername = true;
+  this.validPassword = {
+    min: false,
+    max: false,
+    hasUpper: false,
+    noSpaces: true,
+    digit: false,
+    criteria: 1
+  };
   this.currentJoke = {};
   this.loggedUser = {};
   this.allUsers = [];
   this.targetUser = {};
   this.targetMatchesLogged = false;
+
+  this.passwordValidate = function(password){
+    if (password.length > 7) {
+      this.validPassword.min = true;
+      this.validPassword.criteria++;
+    }
+    if (password.length < 20) {
+      this.validPassword.max = true;
+      this.validPassword.criteria++;
+    }
+    for (let i = 0; i < password.length; i++) {
+      if (password.charCodeAt(i) > 64 && password.charCodeAt(i) < 91) {
+        if (!this.validPassword.hasUpper) {
+          this.validPassword.hasUpper = true;
+          this.validPassword.criteria++;
+        }
+      }
+      if (password.charCodeAt(i) === 32) {
+        this.validPassword.noSpaces = false;
+        this.validPassword.criteria--;
+      }
+      if (password.charCodeAt(i) > 47 && password.charCodeAt(i) < 58) {
+        if (!this.validPassword.digit) {
+          this.validPassword.digit = true;
+          this.validPassword.criteria++;
+        }
+      }
+    }
+    if (this.validPassword.criteria !==5) {
+      console.log(false);
+      console.log(this.validPassword);
+    } else {
+      console.log(true);
+      console.log(this.validPassword);
+    }
+  };
 
   // Get all jokes from my API
   this.getAllJokes = function(){
@@ -176,17 +221,10 @@ app.controller('MainController', ['$http', function($http){
     $http({
       method: 'POST',
       url: '/session',
-      // data: this.newUser
-      data: {
-        firstName: 'Josh',
-        lastName: 'Edgell',
-        username: 'joshedgell',
+      data: this.newUser
         // They said my password need to be 8 characters, so I chose Snow White and the Seven Dwarves
-        password: 'Tacocat1',
-        password2: 'Tacocat1'
-      }
+
     }).then(function(response){
-      console.log(response.data, 'response from this.createUser');
       controller.loggedUser = response.data;
       controller.userLoggedIn = response.data.logged;
       controller.getAllUsers();
@@ -235,23 +273,20 @@ app.controller('MainController', ['$http', function($http){
 
   // Log in a user
   this.login = function(){
+    console.log(this.loginInfo)
     this.showLoginForm = false;
     $http({
       method: 'POST',
       url: 'session/login',
       data: this.loginInfo,
-      data: {
-        username: 'joshedgell',
-        password: 'Tacocat1'
-      }
     }).then(function(response){
       if (response.status === 200) {
+        controller.loginInfo = {};
         controller.userLoggedIn = response.data.logged;
         controller.loggedUser = response.data;
-        console.log(response, 'response from this.login')
-        console.log(controller.loggedUser, 'user logged in');
+        // console.log(response, 'response from this.login')
+        // console.log(controller.loggedUser, 'user logged in');
       }
-      // console.log(res, 'response from this.login');
     }, function(error){
       // 401 - incorrect password
       // 404 - user not found
@@ -425,5 +460,4 @@ app.controller('MainController', ['$http', function($http){
 
   this.getRandomExternal();
   this.getAllUsers();
-  this.login();
 }]);
