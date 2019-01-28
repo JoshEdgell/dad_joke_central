@@ -5,55 +5,26 @@ app.controller('MainController', ['$http', function($http){
   this.showLoginForm = true;
   this.userLoggedIn = false;
   this.invalidUsername = true;
-  this.validPassword = {
-    min: false,
-    max: false,
-    hasUpper: false,
-    noSpaces: true,
-    digit: false,
-    criteria: 1
-  };
+  this.targetMatchesLogged = false;
   this.currentJoke = {};
   this.loggedUser = {};
   this.allUsers = [];
   this.targetUser = {};
-  this.targetMatchesLogged = false;
-
-  this.passwordValidate = function(password){
-    if (password.length > 7) {
-      this.validPassword.min = true;
-      this.validPassword.criteria++;
-    }
-    if (password.length < 20) {
-      this.validPassword.max = true;
-      this.validPassword.criteria++;
-    }
-    for (let i = 0; i < password.length; i++) {
-      if (password.charCodeAt(i) > 64 && password.charCodeAt(i) < 91) {
-        if (!this.validPassword.hasUpper) {
-          this.validPassword.hasUpper = true;
-          this.validPassword.criteria++;
-        }
-      }
-      if (password.charCodeAt(i) === 32) {
-        this.validPassword.noSpaces = false;
-        this.validPassword.criteria--;
-      }
-      if (password.charCodeAt(i) > 47 && password.charCodeAt(i) < 58) {
-        if (!this.validPassword.digit) {
-          this.validPassword.digit = true;
-          this.validPassword.criteria++;
-        }
-      }
-    }
-    if (this.validPassword.criteria !==5) {
-      console.log(false);
-      console.log(this.validPassword);
-    } else {
-      console.log(true);
-      console.log(this.validPassword);
-    }
+  this.validPassword = {
+    min: false,
+    max: false,
+    digit: false,
+    capital: false,
+    spaces: false,
+    criteria: 1
   };
+  this.passwordFail = {
+    min: true,
+    max: false,
+    digit: true,
+    capital: true,
+    spaces: false
+  }
 
   // Get all jokes from my API
   this.getAllJokes = function(){
@@ -215,22 +186,63 @@ app.controller('MainController', ['$http', function($http){
     })
   };
 
+  this.checkUniqueUser = function(username) {
+    console.log("checking: " + username)
+    for (let i = 0; i < this.allUsers.length; i++) {
+      if (username === this.allUsers[i].username) {
+        console.log(username + " matches " + this.allUsers[i].username);
+        return false;
+      }
+    }
+    return true;
+  };
+
+  this.checkPassword = function(password) {
+    if (this.newUser.password.length > 7) {
+      this.validPassword.min = true;
+      this.validPassword.criteria++;
+    }
+    if (this.newUser.password.length < 21) {
+      this.validPassword.max = true;
+      this.validPassword.criteria++;
+    }
+
+
+    
+    if (this.validPassword.criteria === 5) {
+      return true;
+    }
+    return false;
+  };
+
   // Create a user
   this.createUser = function(){
-    // Use this route to check to verify that passwords match prior to sending the request.  If they don't match, pop up the error message to prompt the user for a match.  If they do match, send the $http request
-    $http({
-      method: 'POST',
-      url: '/session',
-      data: this.newUser
-        // They said my password need to be 8 characters, so I chose Snow White and the Seven Dwarves
+    // If the user's password is invalid, or the username matches an existing user, the user cannot be created
+    if (this.newUser.password !== this.newUser.password2 || this.checkUniqueUser(this.newUser.username) === false) {
+      console.log("user cannot be created");
+    } else {
+      console.log("user can be created");
 
-    }).then(function(response){
-      controller.loggedUser = response.data;
-      controller.userLoggedIn = response.data.logged;
-      controller.getAllUsers();
-    }, function(error){
-      console.log(error, 'error from this.createUser');
-    })
+
+
+
+      // $http({
+      //   method: 'POST',
+      //   url: '/session',
+      //   data: this.newUser
+      // }).then(function(response){
+      //   controller.loggedUser = response.data;
+      //   controller.userLoggedIn = response.data.logged;
+      //   controller.getAllUsers();
+      // }, function(error){
+      //   console.log(error, 'error from this.createUser');
+      // })
+
+
+
+
+
+    }
   };
 
   // Get all users
@@ -460,5 +472,4 @@ app.controller('MainController', ['$http', function($http){
 
   this.getRandomExternal();
   this.getAllUsers();
-  this.passwordValidate('taco ')
 }]);

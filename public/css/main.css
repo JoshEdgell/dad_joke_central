@@ -13,6 +13,10 @@ body {
   width: 80%;
 }
 
+.invalid {
+  color: red;
+}
+
 .emoji-toggle {
   position: relative;
   width: 60px;

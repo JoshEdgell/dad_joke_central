@@ -103,7 +103,7 @@
           <div class="modal-body">
 
             <!-- Create User Form -->
-            <form class="createUser">
+            <form class="createUser" id="createUserForm">
               <div class="form-group">
                 <label for="firstName">First Name</label>
                 <input type="text" class="form-control" id="firstName" aria-describedby="firstName" placeholder="Enter First Name" ng-model="ctrl.newUser.firstName">
@@ -126,19 +126,19 @@
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" placeholder="Password" ng-model="ctrl.newUser.password">
                 <ul>
-                <li ng-show="!ctrl.validPassword.min">
+                <li class="invalid" ng-show="ctrl.passwordFail.min">
                   My password needed 8 characters, so it's "Snow White & the Seven Dwarves" (password too short)
                 </li>
-                <li ng-show="!ctrl.validPassword.max">
+                <li class="invalid" ng-show="ctrl.passwordFail.max">
                   No joke here, your password is just too long (password more than 20 characters)
                 </li>
-                <li ng-show="!ctrl.validPassword.hasUpper">
+                <li class="invalid" ng-show="ctrl.passwordFail.capital">
                   What's the capital of Texas?  T! (use a capital letter)
                 </li>
-                <li ng-show="!ctrl.validPassword.noSpaces">
+                <li class="invalid" ng-show="ctrl.passwordFail.noSpaces">
                   Where does an astronaut hang out?  At the space bar! (no spaces)
                 </li>
-                <li ng-show="!ctrl.validPassword.digit">
+                <li class="invalid" ng-show="ctrl.passwordFail.digit">
                   4, 6, 8, and 9 were murdered.  2, 3, 5, and 7 are prime suspects (use a number)
                 </li>
               </ul>
@@ -148,6 +148,11 @@
                 <label for="password2">Verify Password</label>
                 <input type="password" class="form-control" id="password2" placeholder="Verify Password" ng-model="ctrl.newUser.password2">
               </div>
+              <ul>
+                <li class="invalid" ng-show="ctrl.newUser.password !== ctrl.newUser.password2">
+                  Passwords do not match
+                </li>
+              </ul>
               <div class="modal-footer">
                 <input type="submit" class="btn btn-primary" data-dismiss="modal" value="Create User" ng-click="ctrl.createUser()">
                 <input type="submit" class="btn btn-secondary" data-dismiss="modal" value="Cancel">
