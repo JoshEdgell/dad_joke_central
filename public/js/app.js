@@ -3,6 +3,7 @@ const app               = angular.module('DadJokes', []);
 app.controller('MainController', ['$http', function($http){
   const controller = this;
   this.showLoginForm = true;
+  this.loginFail = false;
   this.userLoggedIn = false;
   this.invalidUsername = false;
   this.targetMatchesLogged = false;
@@ -241,14 +242,13 @@ app.controller('MainController', ['$http', function($http){
   this.createUser = function(){
     if (this.checkPassword(this.newUser.password) === false || this.newUser.password !== this.newUser.password2 || this.checkUniqueUser(this.newUser.username) === false) {
     // If the user's password is invalid, or the username matches an existing user, the user cannot be created
-      console.log("user cannot be created");
 
 
 
 
     } else {
-    // Reset all of the password validation stuff, then create the user (don't forget to reset this.newUser after creating the new user)
       console.log("user can be created");
+      $('#createUserModal').modal('hide');
       this.invalidUsername = false;
       this.validPassword = {
         min: false,
@@ -269,17 +269,18 @@ app.controller('MainController', ['$http', function($http){
 
 
 
-      // $http({
-      //   method: 'POST',
-      //   url: '/session',
-      //   data: this.newUser
-      // }).then(function(response){
-      //   controller.loggedUser = response.data;
-      //   controller.userLoggedIn = response.data.logged;
-      //   controller.getAllUsers();
-      // }, function(error){
-      //   console.log(error, 'error from this.createUser');
-      // })
+      $http({
+        method: 'POST',
+        url: '/session',
+        data: this.newUser
+      }).then(function(response){
+        controller.newUser = {};
+        controller.loggedUser = response.data;
+        controller.userLoggedIn = response.data.logged;
+        controller.getAllUsers();
+      }, function(error){
+        console.log(error, 'error from this.createUser');
+      })
 
 
 
@@ -336,6 +337,7 @@ app.controller('MainController', ['$http', function($http){
       data: this.loginInfo,
     }).then(function(response){
       if (response.status === 200) {
+        $('#hamburger').click();
         controller.loginInfo = {};
         controller.userLoggedIn = response.data.logged;
         controller.loggedUser = response.data;
@@ -345,6 +347,7 @@ app.controller('MainController', ['$http', function($http){
     }, function(error){
       // 401 - incorrect password
       // 404 - user not found
+      controller.loginFail = true;
       console.log(error, 'error from this.login');
     })
   };

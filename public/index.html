@@ -54,8 +54,14 @@
               <label for="loginPassword">password</label>
               <input type="password" class="form-control" id="loginPassword" placeholder="Password" ng-model="ctrl.loginInfo.password">
             </div>
+            <ul>
+              <li class="invalid" ng-show="ctrl.loginFail">
+                Incorrect username or password
+              </li>
+            </ul>
 
-            <button type="submit" id="loginButton" class="btn btn-primary hamburgerToggler">Login</button>
+            <!-- <button type="submit" id="loginButton" class="btn btn-primary hamburgerToggler">Login</button> -->
+            <button type="submit" id="loginButton" class="btn btn-primary">Login</button>
             <button type="button" class="btn btn-primary hamburgerToggler" data-toggle="modal" data-target="#createUserModal">
               Create an Account
             </button>
@@ -156,7 +162,7 @@
                 </li>
               </ul>
               <div class="modal-footer">
-                <input type="submit" class="btn btn-primary" data-dismiss="modal" value="Create User" ng-click="ctrl.createUser()">
+                <input type="submit" class="btn btn-primary" value="Create User" ng-click="ctrl.createUser()">
                 <input type="submit" class="btn btn-secondary" data-dismiss="modal" value="Cancel">
               </div>
             </form>
