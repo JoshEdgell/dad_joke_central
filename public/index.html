@@ -117,31 +117,33 @@
               <div class="form-group">
                 <label for="username">username</label>
                 <input type="text" class="form-control" id="username" aria-describedby="username" placeholder="Enter User Name" ng-model="ctrl.newUser.username">
-                <div class="invalid-feedback" ng-show="ctrl.invalidUsername">
-                  That username is already taken
-                </div>
+                <ul>
+                  <li class="invalid" ng-show="ctrl.invalidUsername">
+                    That username is already taken
+                  </li>
+                </ul>
               </div>
 
               <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" placeholder="Password" ng-model="ctrl.newUser.password">
                 <ul>
-                <li class="invalid" ng-show="ctrl.passwordFail.min">
-                  My password needed 8 characters, so it's "Snow White & the Seven Dwarves" (password too short)
-                </li>
-                <li class="invalid" ng-show="ctrl.passwordFail.max">
-                  No joke here, your password is just too long (password more than 20 characters)
-                </li>
-                <li class="invalid" ng-show="ctrl.passwordFail.capital">
-                  What's the capital of Texas?  T! (use a capital letter)
-                </li>
-                <li class="invalid" ng-show="ctrl.passwordFail.noSpaces">
-                  Where does an astronaut hang out?  At the space bar! (no spaces)
-                </li>
-                <li class="invalid" ng-show="ctrl.passwordFail.digit">
-                  4, 6, 8, and 9 were murdered.  2, 3, 5, and 7 are prime suspects (use a number)
-                </li>
-              </ul>
+                  <li class="invalid" ng-show="ctrl.passwordFail.min">
+                    My password needed 8 characters, so it's "Snow White & the Seven Dwarves" (password too short)
+                  </li>
+                  <li class="invalid" ng-show="ctrl.passwordFail.max">
+                    No joke here, your password is just too long (password more than 20 characters)
+                  </li>
+                  <li class="invalid" ng-show="ctrl.passwordFail.capital">
+                    What's the capital of Texas?  T! (use a capital letter)
+                  </li>
+                  <li class="invalid" ng-show="ctrl.passwordFail.spaces">
+                    Where does an astronaut hang out?  At the space bar! (no spaces)
+                  </li>
+                  <li class="invalid" ng-show="ctrl.passwordFail.digit">
+                    4, 6, 8, and 9 were murdered.  2, 3, 5, and 7 are prime suspects (use a number)
+                  </li>
+                </ul>
               </div>
 
               <div class="form-group">

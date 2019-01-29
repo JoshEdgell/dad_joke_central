@@ -13,8 +13,13 @@ body {
   width: 80%;
 }
 
+ul {
+  padding-left: 0;
+}
+
 .invalid {
   color: red;
+  list-style: none;
 }
 
 .emoji-toggle {

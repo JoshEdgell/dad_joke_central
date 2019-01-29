@@ -4,7 +4,7 @@ app.controller('MainController', ['$http', function($http){
   const controller = this;
   this.showLoginForm = true;
   this.userLoggedIn = false;
-  this.invalidUsername = true;
+  this.invalidUsername = false;
   this.targetMatchesLogged = false;
   this.currentJoke = {};
   this.loggedUser = {};
@@ -15,16 +15,16 @@ app.controller('MainController', ['$http', function($http){
     max: false,
     digit: false,
     capital: false,
-    spaces: false,
+    spaces: true,
     criteria: 1
   };
   this.passwordFail = {
-    min: true,
+    min: false,
     max: false,
-    digit: true,
-    capital: true,
+    digit: false,
+    capital: false,
     spaces: false
-  }
+  };
 
   // Get all jokes from my API
   this.getAllJokes = function(){
@@ -186,11 +186,10 @@ app.controller('MainController', ['$http', function($http){
     })
   };
 
-  this.checkUniqueUser = function(username) {
-    console.log("checking: " + username)
+  this.checkUniqueUser = function(username){
     for (let i = 0; i < this.allUsers.length; i++) {
       if (username === this.allUsers[i].username) {
-        console.log(username + " matches " + this.allUsers[i].username);
+        this.invalidUsername = true;
         return false;
       }
     }
@@ -206,9 +205,32 @@ app.controller('MainController', ['$http', function($http){
       this.validPassword.max = true;
       this.validPassword.criteria++;
     }
+    for (let i = 0; i < password.length; i++) {
+      if (!this.validPassword.digit) {
+        if (password.charCodeAt(i) > 47 && password.charCodeAt(i) < 58) {
+          this.validPassword.digit = true;
+          this.validPassword.criteria++;
+        }
+      }
+      if (!this.validPassword.capital) {
+        if (password.charCodeAt(i) > 64 && password.charCodeAt(i) < 91) {
+          this.validPassword.capital = true;
+          this.validPassword.criteria++;
+        }
+      }
+      if (password.charCodeAt(i) === 32) {
+          this.validPassword.spaces = false;
+          this.validPassword.criteria--;
+      }
+    }
 
+    // Update this.passwordFail to indicate "true" for the criteria the password fails
+    this.passwordFail.min = !this.validPassword.min
+    this.passwordFail.max = !this.validPassword.max
+    this.passwordFail.digit = !this.validPassword.digit
+    this.passwordFail.spaces = !this.validPassword.spaces
+    this.passwordFail.capital = !this.validPassword.capital
 
-    
     if (this.validPassword.criteria === 5) {
       return true;
     }
@@ -217,11 +239,32 @@ app.controller('MainController', ['$http', function($http){
 
   // Create a user
   this.createUser = function(){
+    if (this.checkPassword(this.newUser.password) === false || this.newUser.password !== this.newUser.password2 || this.checkUniqueUser(this.newUser.username) === false) {
     // If the user's password is invalid, or the username matches an existing user, the user cannot be created
-    if (this.newUser.password !== this.newUser.password2 || this.checkUniqueUser(this.newUser.username) === false) {
       console.log("user cannot be created");
+
+
+
+
     } else {
+    // Reset all of the password validation stuff, then create the user (don't forget to reset this.newUser after creating the new user)
       console.log("user can be created");
+      this.invalidUsername = false;
+      this.validPassword = {
+        min: false,
+        max: false,
+        digit: false,
+        capital: false,
+        spaces: true,
+        criteria: 1
+      };
+      this.passwordFail = {
+        min: false,
+        max: false,
+        digit: false,
+        capital: false,
+        spaces: false
+      };
 
 
 
