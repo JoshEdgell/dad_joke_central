@@ -7,6 +7,9 @@ app.controller('MainController', ['$http', function($http){
   this.userLoggedIn = false;
   this.invalidUsername = false;
   this.targetMatchesLogged = false;
+  this.internalCount = 0;
+  this.externalCount = 0;
+  this.totalCount = 0;
   this.currentJoke = {};
   this.loggedUser = {};
   this.allUsers = [];
@@ -79,6 +82,17 @@ app.controller('MainController', ['$http', function($http){
     })
   };
 
+  this.getInternalCount = function(){
+    $http({
+      method: 'GET',
+      url: 'jokes/count'
+    }).then(function(response){
+      controller.internalCount = parseInt(response.data);
+    }, function(error){
+      console.log(error, 'error from this.getInternalCount');
+    })
+  }
+
   // Get a random joke from the dad joke API
   this.getRandomExternal = function(){
     $http({
@@ -92,9 +106,37 @@ app.controller('MainController', ['$http', function($http){
       // the api_id key of a joke is used for a common id system to put on a joke before getting a Mongo ID on the backend.
       controller.currentJoke.api_id = res.data.id;
       // console.log(controller.currentJoke, 'currentJoke')
+      console.log(controller.currentJoke, "current joke received from getRandomExternal");
+      console.log(controller.loggedUser, 'logged user')
+      if (controller.userLoggedIn) {
+      // If a user is logged in, check each joke in his favorite jokes array against the id of the joke that is displayed
+      $('.toggle').prop("checked",false);
+        for (let i = 0; i < controller.loggedUser.favoriteJokes.length; i++) {
+        // If the api_ids match, set the favorite toggle to active
+          if (controller.currentJoke.api_id === controller.loggedUser.favoriteJokes[i].api_id) {
+            console.log(controller.currentJoke.api_id + " matches " + controller.loggedUser.favoriteJokes[i].api_id)
+            console.log("joke is in the user's favorites");
+            $('.toggle').prop("checked",true);
+          }
+        }
+      }
     }, function(error){
       console.log(error, 'error from this.getRandomExternal')
     })
+  };
+
+  this.getExternalCount = function(){
+    $http({
+      method: 'GET',
+      url: 'https://icanhazdadjoke.com/search',
+      headers: {'Accept':'application/json'}
+    }).then(
+      function(response){
+        controller.externalCount = response.data.total_jokes;
+        console.log(controller.externalCount, 'response from this.getExternalCount');
+      }, function (error){
+        console.log(error);
+      })
   };
 
   //Search API for dad jokes based on search term
@@ -518,4 +560,6 @@ app.controller('MainController', ['$http', function($http){
 
   this.getRandomExternal();
   this.getAllUsers();
+  this.getInternalCount();
+  this.getExternalCount();
 }]);
