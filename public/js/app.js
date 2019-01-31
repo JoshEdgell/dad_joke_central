@@ -9,7 +9,6 @@ app.controller('MainController', ['$http', function($http){
   this.targetMatchesLogged = false;
   this.internalCount = 0;
   this.externalCount = 0;
-  this.totalCount = 0;
   this.currentJoke = {};
   this.loggedUser = {};
   this.allUsers = [];
@@ -30,6 +29,22 @@ app.controller('MainController', ['$http', function($http){
     spaces: false
   };
 
+  // Close the hamburger toggle
+  this.closeHamburger = function(){
+    const hamburger = $('#hamburger');
+    if (hamburger.attr('aria-expanded') === 'true') {
+      hamburger.click();
+    }
+  };
+
+  // Expand the hamburger toggle
+  this.openHamburger = function(){
+    const hamburger = $('#hamburger');
+    if (hamburger.attr('aria-expanded') === 'false') {
+      hamburger.click();
+    }
+  };
+
   // Get all jokes from my API
   this.getAllJokes = function(){
     $http({
@@ -43,45 +58,28 @@ app.controller('MainController', ['$http', function($http){
       })
   };
 
-  // Get a count of jokes in my API
-  this.countJokes = function(){
-    $http({
-      method: 'GET',
-      url: '/jokes/count'
-    }).then(function(res){
-      console.log(res.data, 'response from this.countJokes');
-    }, function(error){
-      console.log(error, 'error from this.countJokes');
-    })
-  };
-
-  //Get a count of all the jokes on the dad joke API
-  this.countAPI = function(){
-    $http({
-      method: 'get',
-      url: 'https://icanhazdadjoke.com/search',
-      headers: {'Accept':'application/json'}
-    }).then(
-      function(response){
-        console.log(res.data.total_jokes, 'response from this.countAPI');
-      }, function (error){
-        console.log(error, 'error from this.countAPI');
-      }
-    )
-  };
-
   // Get a random joke from my API
   this.getRandomInternal = function(){
     $http({
       method: 'GET',
       url: '/jokes/random'
     }).then(function(res){
-      console.log(res.data, 'response from this.getRandomInternal');
+      // Set the current joke as the response
+      controller.currentJoke = res.data;
+      // The api_id key of a joke is used for a common id system to put on a joke before getting a Mongo ID on the backend.
+      controller.currentJoke.api_id = res.data.id;
+      // As a default, set the "favorite" toggle to false
+      $('.toggle').prop("checked",false);
+      if (controller.userLoggedIn) {
+      // If a user is logged in, check the current joke against their favorites to determine whether the toggle needs to be switched
+      $('.toggle').prop('checked', controller.checkJokeAgainstUsersFavorites(controller.currentJoke.api_id));
+      }
     }, function(error){
       console.log(error, 'error from this.getRandomJoke');
     })
   };
 
+  // Get a count of all the jokes in my API
   this.getInternalCount = function(){
     $http({
       method: 'GET',
@@ -100,31 +98,19 @@ app.controller('MainController', ['$http', function($http){
       url: 'https://icanhazdadjoke.com/',
       headers: { 'Accept':'application/json'}
     }).then(function(res){
-      // Is it possible to check the id of the joke against the ids of the jokes in the loggedUser's favorited jokes to change the class of the star appearing after the joke?
-      // console.log(res.data, 'response from this.getRandomExternal')
       controller.currentJoke = res.data;
       // the api_id key of a joke is used for a common id system to put on a joke before getting a Mongo ID on the backend.
       controller.currentJoke.api_id = res.data.id;
-      // console.log(controller.currentJoke, 'currentJoke')
-      console.log(controller.currentJoke, "current joke received from getRandomExternal");
-      console.log(controller.loggedUser, 'logged user')
       if (controller.userLoggedIn) {
-      // If a user is logged in, check each joke in his favorite jokes array against the id of the joke that is displayed
-      $('.toggle').prop("checked",false);
-        for (let i = 0; i < controller.loggedUser.favoriteJokes.length; i++) {
-        // If the api_ids match, set the favorite toggle to active
-          if (controller.currentJoke.api_id === controller.loggedUser.favoriteJokes[i].api_id) {
-            console.log(controller.currentJoke.api_id + " matches " + controller.loggedUser.favoriteJokes[i].api_id)
-            console.log("joke is in the user's favorites");
-            $('.toggle').prop("checked",true);
-          }
-        }
+      // If a user is logged in, check the current joke against their favorites to determine whether the toggle needs to be switched
+      $('.toggle').prop('checked', controller.checkJokeAgainstUsersFavorites(controller.currentJoke.api_id));
       }
     }, function(error){
       console.log(error, 'error from this.getRandomExternal')
     })
   };
 
+  // Get a count of all the jokes in the dad jokes API
   this.getExternalCount = function(){
     $http({
       method: 'GET',
@@ -133,10 +119,28 @@ app.controller('MainController', ['$http', function($http){
     }).then(
       function(response){
         controller.externalCount = response.data.total_jokes;
-        console.log(controller.externalCount, 'response from this.getExternalCount');
       }, function (error){
         console.log(error);
       })
+  };
+
+  // Get a random joke from one of the two APIs
+  this.getRandomJoke = function(){
+    // If the user is logged in, get a random joke
+    if (this.userLoggedIn) {
+      this.closeHamburger();
+      // Generate a random value from 0 - 1
+      // If the value is less than or equal to the ratio of the internal count to the total count (internal + external), get a random internal joke
+      // Else, get an external joke
+      if (Math.random() <= ( (this.internalCount) / (this.internalCount + this.externalCount) ) ) {
+        this.getRandomInternal();
+      } else {
+        this.getRandomExternal();
+      }
+    } else {
+      // If the user is not logged in, prompt them to log in
+      this.openHamburger();
+    }
   };
 
   //Search API for dad jokes based on search term
@@ -146,19 +150,14 @@ app.controller('MainController', ['$http', function($http){
       url: 'https://icanhazdadjoke.com/search?term=' + word,
       headers: { 'Accept':'application/json'}
     }).then(function(res){
-      // Is it possible to check the ids of the jokes against the ids of the jokes in the loggedUser's favorited jokes to change the class of the star appearing after each joke?
-      // To do this, it may be necessary to give each joke an id of the joke._id to find the target joke and apply the class change
       console.log(res.data, 'response from this.searchJokes');
     }, function(error){
       console.log(error, 'error from this.searchJokes');
     })
   };
 
-  // After several of the joke operations call for the same 5/6 lines of code after the response.  Consider putting those lines into a method to run after joke CRUD/favorites
-
   // Create a joke
   this.createJoke = function(){
-    console.log(this.loggedUser, 'logged user')
     $http({
       method: 'POST',
       url: '/jokes/' + this.loggedUser._id,
@@ -169,13 +168,13 @@ app.controller('MainController', ['$http', function($http){
       }
     }).then(
       function(res){
+        // Reset the joke text to empty the "create joke" form
         controller.createJokeText = '';
-        controller.getAllUsers();
+        // Update the current user to include their newly-created joke
         controller.loggedUser = res.data;
         controller.loggedUser.logged = true;
-        if (controller.targetMatchesLogged) {
-          controller.targetUser = res.data;
-        }
+        // Since the current user will be the displayed user, update the target user
+        controller.targetUser = res.data;
       }, function(error){
         console.log(error, 'error from this.createJoke');
       }
@@ -407,6 +406,7 @@ app.controller('MainController', ['$http', function($http){
   };
 
   this.displayUser = function(user) {
+    this.closeHamburger();
     console.log(user, 'clicked user');
     console.log(controller.loggedUser, 'logged user');
     if (user._id === this.loggedUser._id) {
@@ -537,7 +537,9 @@ app.controller('MainController', ['$http', function($http){
 
   };
 
+  // Check a joke's id against the jokes in the logged user's favorite jokes array
   this.checkJokeAgainstUsersFavorites = function(id){
+    // The provided joke id will be checked against all jokes in the current user's favorite jokes.  If the id matches the id of a joke in the user's favorites, the method will return 'true,' otherwise, it will return 'false'
     for (let i = 0; i < this.loggedUser.favoriteJokes.length; i++) {
       if (id === this.loggedUser.favoriteJokes[i].api_id) {
         return true;
@@ -557,6 +559,7 @@ app.controller('MainController', ['$http', function($http){
     }
     return string;
   };
+
 
   this.getRandomExternal();
   this.getAllUsers();
