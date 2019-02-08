@@ -56,7 +56,21 @@ body {
   border: 1px solid red;
 }
 
+/* use some javascript magic to match the height to the width */
+#dadBox {
+  width: 16%;
+  left: 1%;
+  height: 4rem;
+  bottom: 0;
+  position: absolute;
+  border: 1px solid red;
+}
 
+img {
+  max-height: 100%;
+  max-width: 100%;
+  margin: auto;
+}
 
 
 
