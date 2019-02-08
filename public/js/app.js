@@ -78,13 +78,8 @@ app.controller('MainController', ['$http', function($http){
 
   // Create a user
   this.createUser = function(){
-    if (this.checkPassword(this.newUser.password) === false || this.newUser.password !== this.newUser.password2 || this.checkUniqueUser(this.newUser.username) === false) {
-    // If the user's password is invalid, or the username matches an existing user, the user cannot be created
+    if (this.checkPassword(this.newUser.password) === true && this.newUser.password === this.newUser.password2 && this.checkUniqueUser(this.newUser.username) === true) {
 
-
-
-
-    } else {
       $('#createUserModal').modal('hide');
       this.invalidUsername = false;
       this.validPassword = {
@@ -114,6 +109,8 @@ app.controller('MainController', ['$http', function($http){
       }, function(error){
         console.log(error, 'error from this.createUser');
       })
+    } else {
+      this.checkUniqueUser(this.newUser.username);
     }
   };
 
