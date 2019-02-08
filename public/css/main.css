@@ -1,25 +1,71 @@
+.later {
+  display: none;
+}
+
 body {
   font-family: 'Quicksand', sans-serif;
   background-color: white;
 }
 
+/* consider setting the expanded width to 18% */
 .pos-f-t {
   position: absolute;
   max-width: 18%;
+  max-height: calc(100% - 10px);
   box-shadow: 0 0 20px #4b92a0;
-}
-
-.container {
-  width: 80%;
-}
-
-ul {
-  padding-left: 0;
 }
 
 .invalid {
   color: red;
   list-style: none;
+}
+
+#loginForm {
+  margin-top: -1rem;
+}
+
+#loginForm .form-group {
+  margin-bottom: 0.25rem;
+}
+
+#loginForm ul {
+  margin: 0;
+}
+
+#loginForm button {
+  margin-top: 0.75rem;
+  width: 100%;
+}
+
+#loginForm button:last-of-type {
+  margin-top: 1rem;
+}
+
+#navbarToggleExternalContent .p-4 {
+  padding-bottom: 1.25rem !important;
+}
+
+#loginForm .invalid {
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.container {
+  width: 64%;
+  border: 1px solid red;
+}
+
+
+
+
+
+
+
+
+
+ul {
+  padding-left: 0;
 }
 
 .emoji-toggle {
