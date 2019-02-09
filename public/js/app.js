@@ -2,6 +2,7 @@ const app               = angular.module('DadJokes', []);
 
 app.controller('MainController', ['$http', function($http){
   const controller = this;
+  this.dadPicture = "/img/dad-1.png";
   // Controls whether a user will see the login form or user list in the hamburger menu
   this.showLoginForm = true;
   // Controls whether a user will see the login error message
@@ -507,6 +508,10 @@ app.controller('MainController', ['$http', function($http){
       }
     }, 250);
 
+  };
+
+  this.makeDadDance = function() {
+    this.dadPicture = "/img/dad-" + (Math.floor(Math.random()*21) + 1) + ".png"
   };
 
   this.getRandomExternal();
