@@ -26,6 +26,8 @@
   </head>
   <body ng-controller="MainController as ctrl">
 
+
+    <!-- Navbar -->
     <div class="pos-f-t">
       <nav class="navbar navbar-dark bg-primary">
         <button id="hamburger" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,16 +38,13 @@
         <div class="bg-primary p-4" id="loginNavbar">
 
           <!-- Login Form -->
-
           <form ng-submit="ctrl.login()" class="text-white h4" id="loginForm" ng-show="!ctrl.userLoggedIn">
-
             <div class="form-group text-white h4">
               <label for="loginUsername">
                 username
               </label>
               <input type="text" class="form-control" id="loginUsername" aria-describedby="loginUsername" placeholder="Enter User Name" ng-model="ctrl.loginInfo.username">
             </div>
-
             <div class="form-group">
               <label for="loginPassword">
                 password
@@ -61,9 +60,97 @@
             <button type="button" class="btn btn-primary hamburgerToggler" data-toggle="modal" data-target="#createUserModal">
               I'm New Here
             </button>
-
           </form>
 
+          <!-- Logged User Navbar -->
+          <div ng-show="ctrl.userLoggedIn">
+            <ul class="text-white h4">
+              <li ng-repeat="user in ctrl.allUsers">
+                <a class="hamburgerToggler userLink" data-toggle="modal" data-target="#displayUserModal" ng-click="ctrl.displayUser(user)">
+                  {{ user.username}}
+                </a>
+              </li>
+            </ul>
+            <button type="button" class="btn btn-primary hamburgerToggler" ng-click="ctrl.logout()">
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create User Modal -->
+    <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="createUserModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="createUserModalLabel">Create A User</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <!-- Create User Form -->
+            <form class="createUser" id="createUserForm">
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" id="firstName" aria-describedby="firstName" placeholder="Enter First Name" ng-model="ctrl.newUser.firstName">
+              </div>
+
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" class="form-control" id="lastName" aria-describedby="lastName" placeholder="Enter Last Name" ng-model="ctrl.newUser.lastName">
+              </div>
+
+              <div class="form-group">
+                <label for="username">username</label>
+                <input type="text" class="form-control" id="username" aria-describedby="username" placeholder="Enter User Name" ng-model="ctrl.newUser.username">
+                <ul>
+                  <li class="invalid" ng-show="ctrl.invalidUsername">
+                    That username is already taken
+                  </li>
+                </ul>
+              </div>
+
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Password" ng-model="ctrl.newUser.password">
+                <ul>
+                  <li class="invalid" ng-show="ctrl.passwordFail.min">
+                    My password needed 8 characters, so it's "Snow White & the Seven Dwarves" (password too short)
+                  </li>
+                  <li class="invalid" ng-show="ctrl.passwordFail.max">
+                    No joke here, your password is just too long (password more than 20 characters)
+                  </li>
+                  <li class="invalid" ng-show="ctrl.passwordFail.capital">
+                    What's the capital of Texas?  T! (use a capital letter)
+                  </li>
+                  <li class="invalid" ng-show="ctrl.passwordFail.spaces">
+                    Where does an astronaut hang out?  At the space bar! (no spaces)
+                  </li>
+                  <li class="invalid" ng-show="ctrl.passwordFail.digit">
+                    4, 6, 8, and 9 were murdered.  2, 3, 5, and 7 are prime suspects (use a number)
+                  </li>
+                </ul>
+              </div>
+
+              <div class="form-group">
+                <label for="password2">Verify Password</label>
+                <input type="password" class="form-control" id="password2" placeholder="Verify Password" ng-model="ctrl.newUser.password2">
+              </div>
+              <ul>
+                <li class="invalid" ng-show="ctrl.newUser.password !== ctrl.newUser.password2">
+                  Passwords do not match
+                </li>
+              </ul>
+              <div class="modal-footer">
+                <input type="submit" class="btn btn-primary" value="Create User" ng-click="ctrl.createUser()">
+                <input type="submit" class="btn btn-secondary" data-dismiss="modal" value="Cancel">
+              </div>
+            </form>
+
+          </div>
         </div>
       </div>
     </div>
@@ -135,7 +222,7 @@
 
             <!-- Logged User Navbar -->
 
-            <div ng-show="ctrl.userLoggedIn">
+            <!-- <div ng-show="ctrl.userLoggedIn">
               <ul class="text-white h4">
                 <li ng-repeat="user in ctrl.allUsers">
                   <a class="hamburgerToggler userLink" data-toggle="modal" data-target="#displayUserModal" ng-click="ctrl.displayUser(user)">
@@ -150,14 +237,14 @@
 
           </div>
         </div>
-      </div>
+      </div> -->
 
 
 
 
 
       <!-- Create User Modal -->
-      <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="createUserModalLabel" aria-hidden="true">
+      <!-- <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="createUserModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -168,7 +255,7 @@
             </div>
             <div class="modal-body">
 
-              <!-- Create User Form -->
+               Create User Form
               <form class="createUser" id="createUserForm">
                 <div class="form-group">
                   <label for="firstName">First Name</label>
@@ -230,7 +317,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
 
 
